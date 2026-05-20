@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Maintenance</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="overlay">
+    <div class="position-absolute top-50 start-50 translate-middle text-center">
+      <div class="spinner-border text-dark" role="status" style="width: 3rem; height: 3rem;"></div>
+      <div class="mt-2 fw-bold" id="loadingText">Processing...</div>
+    </div>
+  </div>
+
+  <div class="d-flex" id="wrapper">
+    <div id="sidebar-wrapper">
+      <div class="sidebar-heading text-center">
+        <i class="bi bi-gear-wide-connected me-2"></i>Maintenance
+      </div>
+      <div class="list-group list-group-flush mt-3">
+        <a href="#" class="list-group-item list-group-item-action active" id="nav-dashboard" onclick="switchView('dashboard')">
+          <i class="bi bi-grid-fill me-2"></i> Dashboard
+        </a>
+        <a href="#" class="list-group-item list-group-item-action" id="nav-table" onclick="switchView('table')">
+          <i class="bi bi-table me-2"></i> History & Edit
+        </a>
+      </div>
+    </div>
+
+    <div id="page-content-wrapper" class="d-flex flex-column">
+      
+      <nav class="navbar navbar-light bg-white border-bottom px-3 d-md-none">
+        <button class="btn btn-corporate-outline" id="menu-toggle"><i class="bi bi-list"></i> Menu</button>
+        <span class="navbar-brand mb-0 h1 fw-bold">Maintenance</span>
+      </nav>
+
+      <div class="container-fluid p-4">
+        
+        <div id="dashboardView">
+          <h4 class="mb-4 fw-bold">Select a Room for Maintenance</h4>
+          <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Room 1')">
+                <i class="bi bi-1-square room-icon"></i><h5 class="fw-bold mb-0">Room 1</h5>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Room 2')">
+                <i class="bi bi-2-square room-icon"></i><h5 class="fw-bold mb-0">Room 2</h5>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Room 3')">
+                <i class="bi bi-3-square room-icon"></i><h5 class="fw-bold mb-0">Room 3</h5>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Room 4')">
+                <i class="bi bi-4-square room-icon"></i><h5 class="fw-bold mb-0">Room 4</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="formView" style="display: none;">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <button class="btn btn-sm btn-corporate-outline mb-3" onclick="switchView('dashboard')">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+              </button>
+              <div class="card p-4">
+                <h4 class="mb-4 fw-bold border-bottom pb-2" id="formTitle">Maintenance Record</h4>
+                
+                <form id="maintenanceForm" novalidate>
+                  <div class="row mb-4">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                      <label class="form-label fw-bold">Room</label>
+                      <input type="text" class="form-control fw-bold text-dark bg-light" id="room" readonly>
+                    </div>
+                    <div class="col-md-8">
+                      <label class="form-label fw-bold">Inspector Name <span class="text-danger">*</span></label>
+                      <select class="form-select" id="name" required>
+                        <option value="" selected disabled>Select Name...</option>
+                        <option value="Name1">Name1</option>
+                        <option value="Name2">Name2</option>
+                        <option value="Name3">Name3</option>
+                        <option value="Name4">Name4</option>
+                      </select>
+                      <div class="invalid-feedback">Please select a name.</div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="form-label fw-bold">Date <span class="text-danger">*</span></label>
+                      <input type="date" class="form-control" id="date" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fw-bold">Time <span class="text-danger">*</span></label>
+                      <input type="time" class="form-control" id="time" required>
+                    </div>
+                  </div>
+
+                  <div class="row mb-4">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                      <label class="form-label fw-bold">Temperature <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="temperature" placeholder="0.00" required>
+                        <span class="input-group-text">°C</span>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                      <label class="form-label fw-bold">Humidity <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="humidity" placeholder="0.00" required>
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label fw-bold">Power <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" id="power" placeholder="0.00" required>
+                        <span class="input-group-text">W</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="button" class="btn btn-corporate px-4" onclick="submitData()">
+                      <i class="bi bi-save me-1"></i> Save Data
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tableView" style="display: none;">
+          <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="fw-bold mb-0">Overall Maintenance History</h4>
+              <button class="btn btn-corporate-outline btn-sm" onclick="loadTableData()">
+                <i class="bi bi-arrow-clockwise"></i> Refresh
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-dark text-white">
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Room</th>
+                    <th>Name</th>
+                    <th>Temp.</th>
+                    <th>Humidity</th>
+                    <th>Power</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody">
+                  <tr><td colspan="8" class="text-center py-4">No data loaded. Click Refresh.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

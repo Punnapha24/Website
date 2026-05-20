@@ -1,0 +1,115 @@
+/* Corporate Custom Theme */
+:root {
+  --primary-color: #FFFFFF;
+  --secondary-color: #000000;
+  --bg-color: #F8FAFC;
+}
+
+body { 
+  background-color: var(--bg-color); 
+  color: var(--secondary-color); 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+/* Sidebar */
+#sidebar-wrapper { 
+  min-height: 100vh; 
+  width: 250px; 
+  background-color: var(--primary-color); 
+  border-right: 1px solid #E2E8F0; 
+  transition: margin .25s ease-out; 
+}
+.sidebar-heading { 
+  padding: 1.5rem 1.25rem; 
+  font-size: 1.25rem; 
+  font-weight: 700; 
+  color: var(--secondary-color); 
+  border-bottom: 1px solid #E2E8F0; 
+}
+.list-group-item { 
+  border: none; 
+  padding: 1rem 1.5rem; 
+  color: var(--secondary-color); 
+  background-color: transparent; 
+  font-weight: 500; 
+  transition: all 0.3s; 
+}
+.list-group-item:hover, .list-group-item.active { 
+  background-color: var(--bg-color); 
+  border-left: 4px solid var(--secondary-color); 
+  color: var(--secondary-color); 
+}
+
+#page-content-wrapper { min-width: 100vw; }
+.card { 
+  border: none; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); 
+}
+
+/* Room Cards */
+.room-card { 
+  cursor: pointer; 
+  transition: transform 0.2s, box-shadow 0.2s; 
+  text-align: center; 
+  padding: 2.5rem 1rem; 
+  border: 2px solid #E2E8F0; 
+  height: 100%; 
+}
+.room-card:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+  border-color: var(--secondary-color); 
+}
+.room-icon { font-size: 3rem; margin-bottom: 1rem; color: var(--secondary-color); }
+
+/* Form Controls & Buttons */
+.form-control, .form-select { 
+  background-color: var(--bg-color); 
+  border: 1px solid #CBD5E1; 
+  color: var(--secondary-color); 
+}
+.form-control:focus, .form-select:focus { 
+  border-color: var(--secondary-color); 
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.1); 
+}
+.btn-corporate { 
+  background-color: var(--secondary-color); 
+  color: var(--primary-color); 
+  border: 1px solid var(--secondary-color); 
+  font-weight: 600; 
+}
+.btn-corporate:hover { 
+  background-color: #333333; 
+  color: var(--primary-color); 
+}
+.btn-corporate-outline { 
+  background-color: var(--primary-color); 
+  color: var(--secondary-color); 
+  border: 1px solid var(--secondary-color); 
+  font-weight: 600; 
+}
+.btn-corporate-outline:hover { 
+  background-color: var(--bg-color); 
+  color: var(--secondary-color); 
+}
+
+/* Loader */
+#overlay { 
+  position: fixed; 
+  display: none; 
+  width: 100%; 
+  height: 100%; 
+  top: 0; left: 0; right: 0; bottom: 0; 
+  background-color: rgba(255,255,255,0.8); 
+  z-index: 2000; 
+}
+
+/* Responsive */
+@media (min-width: 768px) { 
+  #page-content-wrapper { min-width: 0; width: 100%; } 
+}
+@media (max-width: 767.98px) { 
+  #sidebar-wrapper { margin-left: -250px; } 
+  #wrapper.toggled #sidebar-wrapper { margin-left: 0; } 
+}
