@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ตั้งค่า Database ของคุณ (เปลี่ยน Password ให้ตรงกับของจริงนะครับ)
+# Database 
 DB_CONFIG = {
     "dbname": "maintenance_db",
     "user": "postgres",

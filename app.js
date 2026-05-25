@@ -280,25 +280,24 @@ function viewRoomHistory() {
 
 // Render Table
 function renderTable(records) {
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '';
-  if (!records || records.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No records found.</td></tr>'; 
-    return;
-  }
-  
-  records.forEach(r => {
-    const safeId = r.id ? r.id.toString().replace(/'/g, "\\'") : '';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${formatDateDisplay(r.date)}</td>
-      <td>${r.time}</td>
-      <td><span class="badge bg-dark">${r.room || '-'}</span></td>
-      <td class="fw-bold">${r.name}</td>
-      <td><button class="btn btn-sm btn-corporate" onclick="editRecord('${safeId}')"><i class="bi bi-pencil"></i> Edit</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = records.length ? '' : '<tr><td colspan="5" class="text-center py-4">No records found.</td></tr>';
+    
+    records.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${formatDateDisplay(r.date)}</td>
+            <td>${r.time}</td>
+            <td><span class="fw-semibold text-dark">${r.room || '-'}</span></td>
+            <td class="fw-bold">${r.name}</td>
+            <td>
+                <button class="btn btn-sm btn-corporate-outline" onclick="editRecord('${r.id}')">
+                    <i class="bi bi-pencil"></i> Edit
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
 // Edit Record

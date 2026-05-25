@@ -2,7 +2,7 @@
 :root {
   --primary-color: #0F172A; 
   --secondary-color: #3B82F6; 
-  --bg-color: #F8FAFC; 
+  --bg-color: #e1ecf7; 
   --card-bg: #FFFFFF;
   --text-main: #334155;
   --text-muted: #64748B;
@@ -164,11 +164,11 @@ body {
 }
 .table { margin-bottom: 0; }
 .table-dark th {
-  background-color: var(--primary-color);
-  font-weight: 500;
+  background-color: #f8f9fb;
+  font-weight: bold;
   letter-spacing: 0.02em;
   padding: 1rem;
-  color: #FFFFFF;
+  color: #000000;
 }
 .table td {
   padding: 1rem;
@@ -344,4 +344,16 @@ body {
   border-color: #f59e0b !important;
   color: #ffffff !important;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+/* เปลี่ยนสีพื้นหลังของช่อง Dropdown All Systems เป็นสีเทาอ่อน */
+#historyFilter {
+  background-color: #ffffff; /* สีเทาอ่อน */
+  border-color: var(--dusty-denim);
+  font-weight: 500;
+}
+
+/* ตอนที่เอาเมาส์ไปคลิก (Focus) ให้คงสีเทาไว้ */
+#historyFilter:focus {
+  background-color: #ffffff; /* เทาเข้มขึ้นนิดนึงตอนกด */
 }
