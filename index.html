@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,51 +38,130 @@
     <div id="page-content-wrapper" class="d-flex flex-column">
       
       <nav class="navbar navbar-light bg-white border-bottom px-3 d-md-none">
-        <button class="btn btn-corporate-outline" id="menu-toggle"><i class="bi bi-list"></i> Menu</button>
+        <button class="btn btn-corporate-outline" id="menu-toggle">
+          <i class="bi bi-list"></i> Menu
+        </button>
         <span class="navbar-brand mb-0 h1 fw-bold">Maintenance</span>
       </nav>
 
-      <div class="container-fluid p-4">
+      <div class="container-fluid p-2 p-md-4">
         
         <div id="dashboardView">
-          <h4 class="mb-4 fw-bold">Select a Room for Maintenance</h4>
+          <h4 class="mb-4 fw-bold">Select a Form</h4>
           <div class="row g-4">
+            
             <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Room 1')">
-                <i class="bi bi-1-square room-icon"></i><h5 class="fw-bold mb-0">Room 1</h5>
+              <div class="card room-card bg-white" onclick="openForm('Electrical System')">
+                <span class="room-icon fw-bold">1</span>
+                <h5 class="fw-bold mb-0">Electrical System</h5>
               </div>
             </div>
+            
             <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Room 2')">
-                <i class="bi bi-2-square room-icon"></i><h5 class="fw-bold mb-0">Room 2</h5>
+              <div class="card room-card bg-white" onclick="openForm('UPS System')">
+                <span class="room-icon fw-bold">2</span>
+                <h5 class="fw-bold mb-0">UPS System</h5>
               </div>
             </div>
+            
             <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Room 3')">
-                <i class="bi bi-3-square room-icon"></i><h5 class="fw-bold mb-0">Room 3</h5>
+              <div class="card room-card bg-white" onclick="openForm('Temperature System')">
+                <span class="room-icon fw-bold">3</span>
+                <h5 class="fw-bold mb-0">Temperature System</h5>
               </div>
             </div>
+            
             <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Room 4')">
-                <i class="bi bi-4-square room-icon"></i><h5 class="fw-bold mb-0">Room 4</h5>
+              <div class="card room-card bg-white" onclick="openForm('Fire Annunciator Panel System')">
+                <span class="room-icon fw-bold">4</span>
+                <h5 class="fw-bold mb-0">Fire Annunciator Panel System</h5>
               </div>
             </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Fire Suppression System')">
+                <span class="room-icon fw-bold">5</span>
+                <h5 class="fw-bold mb-0">Fire Suppression System</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Water Leak Detection System')">
+                <span class="room-icon fw-bold">6</span>
+                <h5 class="fw-bold mb-0">Water Leak Detection System</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Access Control System')">
+                <span class="room-icon fw-bold">7</span>
+                <h5 class="fw-bold mb-0">Access Control System</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('CCTV')">
+                <span class="room-icon fw-bold">8</span>
+                <h5 class="fw-bold mb-0">CCTV</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Check Rack Customer')">
+                <span class="room-icon fw-bold">9</span>
+                <h5 class="fw-bold mb-0">Check Rack Customer</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Generator System')">
+                <span class="room-icon fw-bold">10</span>
+                <h5 class="fw-bold mb-0">Generator System</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Fuel System')">
+                <span class="room-icon fw-bold">11</span>
+                <h5 class="fw-bold mb-0">Fuel System</h5>
+              </div>
+            </div>
+            
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="card room-card bg-white" onclick="openForm('Breaking Glass')">
+                <span class="room-icon fw-bold">12</span>
+                <h5 class="fw-bold mb-0">Breaking Glass</h5>
+              </div>
+            </div>
+
           </div>
+        </div>
+
+        <div id="subSelectionView" style="display: none;">
+          <button class="btn btn-sm btn-corporate-outline mb-4" onclick="switchView('dashboard')">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+          </button>
+          <h4 class="mb-4 fw-bold" id="subSelectionTitle">Select Category</h4>
+          <div class="row g-4" id="subCategoryContainer">
+            </div>
         </div>
 
         <div id="formView" style="display: none;">
           <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-10">
+              
               <button class="btn btn-sm btn-corporate-outline mb-3" onclick="switchView('dashboard')">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
               </button>
+              
               <div class="card p-4">
                 <h4 class="mb-4 fw-bold border-bottom pb-2" id="formTitle">Maintenance Record</h4>
                 
                 <form id="maintenanceForm" novalidate>
+                  
                   <div class="row mb-4">
                     <div class="col-md-4 mb-3 mb-md-0">
-                      <label class="form-label fw-bold">Room</label>
+                      <label class="form-label fw-bold">System</label>
                       <input type="text" class="form-control fw-bold text-dark bg-light" id="room" readonly>
                     </div>
                     <div class="col-md-8">
@@ -93,7 +173,6 @@
                         <option value="Name3">Name3</option>
                         <option value="Name4">Name4</option>
                       </select>
-                      <div class="invalid-feedback">Please select a name.</div>
                     </div>
                   </div>
 
@@ -108,35 +187,890 @@
                     </div>
                   </div>
 
-                  <div class="row mb-4">
-                    <div class="col-md-4 mb-3 mb-md-0">
-                      <label class="form-label fw-bold">Temperature <span class="text-danger">*</span></label>
-                      <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="temperature" placeholder="0.00" required>
-                        <span class="input-group-text">°C</span>
+                  <div id="form-mdb" class="dynamic-form-group" style="display: none;">
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">MDB-A</h5>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Lamp L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_a_l1" id="mdb_a_l1_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_a_l1_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_a_l1" id="mdb_a_l1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_a_l1_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_a_l1" id="mdb_a_l1_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_a_l1_trip">Trip</label>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Lamp L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_a_l2" id="mdb_a_l2_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_a_l2_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_a_l2" id="mdb_a_l2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_a_l2_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_a_l2" id="mdb_a_l2_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_a_l2_trip">Trip</label>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Lamp L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_a_l3" id="mdb_a_l3_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_a_l3_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_a_l3" id="mdb_a_l3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_a_l3_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_a_l3" id="mdb_a_l3_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_a_l3_trip">Trip</label>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Breaker</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_a_brk" id="mdb_a_brk_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_a_brk_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_a_brk" id="mdb_a_brk_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_a_brk_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_a_brk" id="mdb_a_brk_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_a_brk_trip">Trip</label>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                      <label class="form-label fw-bold">Humidity <span class="text-danger">*</span></label>
-                      <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="humidity" placeholder="0.00" required>
-                        <span class="input-group-text">%</span>
+                    
+                    <h6 class="fw-bold mt-3">Electrical System (A)</h6>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Voltage [V] L1</label>
+                        <input type="number" id="mdb_a_v_l1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Voltage [V] L2</label>
+                        <input type="number" id="mdb_a_v_l2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Voltage [V] L3</label>
+                        <input type="number" id="mdb_a_v_l3" class="form-control">
+                      </div>
+                      
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Current [A] L1</label>
+                        <input type="number" id="mdb_a_a_l1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Current [A] L2</label>
+                        <input type="number" id="mdb_a_a_l2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Current [A] L3</label>
+                        <input type="number" id="mdb_a_a_l3" class="form-control">
+                      </div>
+                      
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">kW</label>
+                        <input type="number" id="mdb_a_kw" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">kVar</label>
+                        <input type="number" id="mdb_a_kvar" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">kVa</label>
+                        <input type="number" id="mdb_a_kva" class="form-control">
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <label class="form-label fw-bold">Power <span class="text-danger">*</span></label>
-                      <div class="input-group">
-                        <input type="number" step="0.01" class="form-control" id="power" placeholder="0.00" required>
-                        <span class="input-group-text">W</span>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-5">MDB-B</h5>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Lamp L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_b_l1" id="mdb_b_l1_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_b_l1_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_b_l1" id="mdb_b_l1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_b_l1_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_b_l1" id="mdb_b_l1_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_b_l1_trip">Trip</label>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Lamp L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_b_l2" id="mdb_b_l2_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_b_l2_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_b_l2" id="mdb_b_l2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_b_l2_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_b_l2" id="mdb_b_l2_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_b_l2_trip">Trip</label>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Lamp L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_b_l3" id="mdb_b_l3_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_b_l3_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_b_l3" id="mdb_b_l3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_b_l3_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_b_l3" id="mdb_b_l3_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_b_l3_trip">Trip</label>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label d-block fw-bold">Breaker</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="mdb_b_brk" id="mdb_b_brk_on" value="On">
+                          <label class="btn btn-outline-success" for="mdb_b_brk_on">On</label>
+                          <input type="radio" class="btn-check" name="mdb_b_brk" id="mdb_b_brk_off" value="Off">
+                          <label class="btn btn-outline-danger" for="mdb_b_brk_off">Off</label>
+                          <input type="radio" class="btn-check" name="mdb_b_brk" id="mdb_b_brk_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="mdb_b_brk_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h6 class="fw-bold mt-3">Electrical System (B)</h6>
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Voltage [V] L1</label>
+                        <input type="number" id="mdb_b_v_l1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Voltage [V] L2</label>
+                        <input type="number" id="mdb_b_v_l2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Voltage [V] L3</label>
+                        <input type="number" id="mdb_b_v_l3" class="form-control">
+                      </div>
+                      
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Current [A] L1</label>
+                        <input type="number" id="mdb_b_a_l1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Current [A] L2</label>
+                        <input type="number" id="mdb_b_a_l2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Main Input Current [A] L3</label>
+                        <input type="number" id="mdb_b_a_l3" class="form-control">
+                      </div>
+                      
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">kW</label>
+                        <input type="number" id="mdb_b_kw" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">kVar</label>
+                        <input type="number" id="mdb_b_kvar" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">kVa</label>
+                        <input type="number" id="mdb_b_kva" class="form-control">
                       </div>
                     </div>
                   </div>
 
-                  <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-corporate px-4" onclick="submitData()">
+                  <div id="form-pdu" class="dynamic-form-group" style="display: none;">
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Data Room-1</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-5A</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_1_5a" id="pdu_1_5a_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_1_5a_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_1_5a" id="pdu_1_5a_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_1_5a_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_1_5a" id="pdu_1_5a_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_1_5a_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-5B</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_1_5b" id="pdu_1_5b_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_1_5b_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_1_5b" id="pdu_1_5b_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_1_5b_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_1_5b" id="pdu_1_5b_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_1_5b_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-6A</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_1_6a" id="pdu_1_6a_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_1_6a_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_1_6a" id="pdu_1_6a_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_1_6a_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_1_6a" id="pdu_1_6a_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_1_6a_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-6B</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_1_6b" id="pdu_1_6b_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_1_6b_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_1_6b" id="pdu_1_6b_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_1_6b_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_1_6b" id="pdu_1_6b_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_1_6b_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Data Room-2</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-1A</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_2_1a" id="pdu_2_1a_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_2_1a_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_2_1a" id="pdu_2_1a_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_2_1a_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_2_1a" id="pdu_2_1a_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_2_1a_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-1B</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_2_1b" id="pdu_2_1b_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_2_1b_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_2_1b" id="pdu_2_1b_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_2_1b_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_2_1b" id="pdu_2_1b_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_2_1b_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-2A</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_2_2a" id="pdu_2_2a_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_2_2a_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_2_2a" id="pdu_2_2a_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_2_2a_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_2_2a" id="pdu_2_2a_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_2_2a_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">PDU-2B</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_2_2b" id="pdu_2_2b_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_2_2b_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_2_2b" id="pdu_2_2b_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_2_2b_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_2_2b" id="pdu_2_2b_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_2_2b_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Data Room-3</h5>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Room 3: PDU-3A</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_3_3a" id="pdu_3_3a_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_3_3a_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_3_3a" id="pdu_3_3a_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_3_3a_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_3_3a" id="pdu_3_3a_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_3_3a_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Room 3: PDU-3B</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_3_3b" id="pdu_3_3b_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_3_3b_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_3_3b" id="pdu_3_3b_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_3_3b_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_3_3b" id="pdu_3_3b_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_3_3b_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Data Room 4</h5>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Room 4: PDU-4A</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_4_4a" id="pdu_4_4a_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_4_4a_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_4_4a" id="pdu_4_4a_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_4_4a_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_4_4a" id="pdu_4_4a_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_4_4a_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold">Room 4: PDU-4B</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="pdu_4_4b" id="pdu_4_4b_on" value="On">
+                          <label class="btn btn-outline-success" for="pdu_4_4b_on">On</label>
+                          <input type="radio" class="btn-check" name="pdu_4_4b" id="pdu_4_4b_off" value="Off">
+                          <label class="btn btn-outline-danger" for="pdu_4_4b_off">Off</label>
+                          <input type="radio" class="btn-check" name="pdu_4_4b" id="pdu_4_4b_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="pdu_4_4b_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="form-rmu" class="dynamic-form-group" style="display: none;">
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">RMU-A</h5>
+                    <div class="row g-2 mb-3">
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_a_in1" id="rmu_a_in1_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_a_in1_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_a_in1" id="rmu_a_in1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_a_in1_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_a_in2" id="rmu_a_in2_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_a_in2_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_a_in2" id="rmu_a_in2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_a_in2_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_a_in3" id="rmu_a_in3_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_a_in3_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_a_in3" id="rmu_a_in3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_a_in3_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_a_out1" id="rmu_a_out1_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_a_out1_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_a_out1" id="rmu_a_out1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_a_out1_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_a_out2" id="rmu_a_out2_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_a_out2_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_a_out2" id="rmu_a_out2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_a_out2_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_a_out3" id="rmu_a_out3_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_a_out3_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_a_out3" id="rmu_a_out3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_a_out3_off">Off</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">RMU-B</h5>
+                    <div class="row g-2 mb-3">
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_b_in1" id="rmu_b_in1_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_b_in1_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_b_in1" id="rmu_b_in1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_b_in1_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_b_in2" id="rmu_b_in2_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_b_in2_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_b_in2" id="rmu_b_in2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_b_in2_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_b_in3" id="rmu_b_in3_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_b_in3_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_b_in3" id="rmu_b_in3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_b_in3_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_b_out1" id="rmu_b_out1_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_b_out1_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_b_out1" id="rmu_b_out1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_b_out1_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_b_out2" id="rmu_b_out2_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_b_out2_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_b_out2" id="rmu_b_out2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_b_out2_off">Off</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="rmu_b_out3" id="rmu_b_out3_on" value="On">
+                          <label class="btn btn-outline-success" for="rmu_b_out3_on">On</label>
+                          <input type="radio" class="btn-check" name="rmu_b_out3" id="rmu_b_out3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="rmu_b_out3_off">Off</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">TROP-A</h5>
+                    <div class="row g-2 mb-3">
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_in1" id="trop_a_in1_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_in1_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_in1" id="trop_a_in1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_in1_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_in1" id="trop_a_in1_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_in1_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_in2" id="trop_a_in2_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_in2_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_in2" id="trop_a_in2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_in2_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_in2" id="trop_a_in2_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_in2_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_in3" id="trop_a_in3_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_in3_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_in3" id="trop_a_in3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_in3_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_in3" id="trop_a_in3_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_in3_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_out1" id="trop_a_out1_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_out1_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_out1" id="trop_a_out1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_out1_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_out1" id="trop_a_out1_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_out1_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_out2" id="trop_a_out2_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_out2_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_out2" id="trop_a_out2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_out2_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_out2" id="trop_a_out2_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_out2_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_out3" id="trop_a_out3_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_out3_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_out3" id="trop_a_out3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_out3_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_out3" id="trop_a_out3_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_out3_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label fw-bold">Breaker</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_a_brk" id="trop_a_brk_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_a_brk_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_a_brk" id="trop_a_brk_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_a_brk_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_a_brk" id="trop_a_brk_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_a_brk_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">TROP-B</h5>
+                    <div class="row g-2 mb-3">
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_in1" id="trop_b_in1_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_in1_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_in1" id="trop_b_in1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_in1_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_in1" id="trop_b_in1_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_in1_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_in2" id="trop_b_in2_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_in2_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_in2" id="trop_b_in2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_in2_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_in2" id="trop_b_in2_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_in2_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">In L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_in3" id="trop_b_in3_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_in3_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_in3" id="trop_b_in3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_in3_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_in3" id="trop_b_in3_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_in3_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L1</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_out1" id="trop_b_out1_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_out1_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_out1" id="trop_b_out1_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_out1_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_out1" id="trop_b_out1_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_out1_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L2</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_out2" id="trop_b_out2_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_out2_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_out2" id="trop_b_out2_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_out2_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_out2" id="trop_b_out2_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_out2_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label fw-bold">Out L3</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_out3" id="trop_b_out3_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_out3_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_out3" id="trop_b_out3_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_out3_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_out3" id="trop_b_out3_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_out3_trip">Trip</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label fw-bold">Breaker</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="trop_b_brk" id="trop_b_brk_on" value="On">
+                          <label class="btn btn-outline-success" for="trop_b_brk_on">On</label>
+                          <input type="radio" class="btn-check" name="trop_b_brk" id="trop_b_brk_off" value="Off">
+                          <label class="btn btn-outline-danger" for="trop_b_brk_off">Off</label>
+                          <input type="radio" class="btn-check" name="trop_b_brk" id="trop_b_brk_trip" value="Trip">
+                          <label class="btn btn-outline-warning" for="trop_b_brk_trip">Trip</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="form-ups-2000-g" class="dynamic-form-group" style="display: none;">
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS2000-G #1</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="status1" id="status_normal_1" value="Normal">
+                          <label class="btn btn-outline-success" for="status_normal_1">Normal</label>
+                          <input type="radio" class="btn-check" name="status1" id="status_abnormal_1" value="AbNormal">
+                          <label class="btn btn-outline-danger" for="status_abnormal_1">AbNormal</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups2000_g_battery_1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L1</label>
+                        <input type="number" id="ups2000_g_current_load_l1_1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L2</label>
+                        <input type="number" id="ups2000_g_current_load_l2_1" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L3</label>
+                        <input type="number" id="ups2000_g_current_load_l3_1" class="form-control">
+                      </div>
+                    </div>
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS2000-G #2</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="status2" id="status_normal_2" value="Normal">
+                          <label class="btn btn-outline-success" for="status_normal_2">Normal</label>
+                          <input type="radio" class="btn-check" name="status2" id="status_abnormal_2" value="AbNormal">
+                          <label class="btn btn-outline-danger" for="status_abnormal_2">AbNormal</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups2000_g_battery_2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L1</label>
+                        <input type="number" id="ups2000_g_current_load_l1_2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L2</label>
+                        <input type="number" id="ups2000_g_current_load_l2_2" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L3</label>
+                        <input type="number" id="ups2000_g_current_load_l3_2" class="form-control">
+                      </div>
+                    </div>
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS2000-G #3</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="status3" id="status_normal_3" value="Normal">
+                          <label class="btn btn-outline-success" for="status_normal_3">Normal</label>
+                          <input type="radio" class="btn-check" name="status3" id="status_abnormal_3" value="AbNormal">
+                          <label class="btn btn-outline-danger" for="status_abnormal_3">AbNormal</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups2000_g_battery_3" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L1</label>
+                        <input type="number" id="ups2000_g_current_load_l1_3" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L2</label>
+                        <input type="number" id="ups2000_g_current_load_l2_3" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Current Load (%) L3</label>
+                        <input type="number" id="ups2000_g_current_load_l3_3" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="form-ups-5000-e" class="dynamic-form-group" style="display: none;">
+                    
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS5000-E 1-A</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Power Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="power_status1A" id="power_status_normal_1A" value="Normal">
+                          <label class="btn btn-outline-success" for="power_status_normal_1A">Normal</label>
+                          <input type="radio" class="btn-check" name="power_status1A" id="power_status_abnormal_1A" value="Failed">
+                          <label class="btn btn-outline-danger" for="power_status_abnormal_1A">Failed</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups5000_e_battery_1A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Back-up Time (10>MIN)</label>
+                        <input type="number" id="ups5000_e_back_up_time_1A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L1</label>
+                        <input type="number" id="ups5000_e_current_load_l1_1A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L2</label>
+                        <input type="number" id="ups5000_e_current_load_l2_1A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L3</label>
+                        <input type="number" id="ups5000_e_current_load_l3_1A" class="form-control">
+                      </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS5000-E 2-A</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Power Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="power_status2A" id="power_status_normal_2A" value="Normal">
+                          <label class="btn btn-outline-success" for="power_status_normal_2A">Normal</label>
+                          <input type="radio" class="btn-check" name="power_status2A" id="power_status_abnormal_2A" value="Failed">
+                          <label class="btn btn-outline-danger" for="power_status_abnormal_2A">Failed</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups5000_e_battery_2A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Back-up Time (10>MIN)</label>
+                        <input type="number" id="ups5000_e_back_up_time_2A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L1</label>
+                        <input type="number" id="ups5000_e_current_load_l1_2A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L2</label>
+                        <input type="number" id="ups5000_e_current_load_l2_2A" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L3</label>
+                        <input type="number" id="ups5000_e_current_load_l3_2A" class="form-control">
+                      </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS5000-E 1-B</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Power Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="power_status1-B" id="power_status_normal_1B" value="Normal">
+                          <label class="btn btn-outline-success" for="power_status_normal_1B">Normal</label>
+                          <input type="radio" class="btn-check" name="power_status1-B" id="power_status_abnormal_1B" value="Failed">
+                          <label class="btn btn-outline-danger" for="power_status_abnormal_1B">Failed</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups5000_e_battery_1B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Back-up Time (10>MIN)</label>
+                        <input type="number" id="ups5000_e_back_up_time_1B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L1</label>
+                        <input type="number" id="ups5000_e_current_load_l1_1B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L2</label>
+                        <input type="number" id="ups5000_e_current_load_l2_1B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L3</label>
+                        <input type="number" id="ups5000_e_current_load_l3_1B" class="form-control">
+                      </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">UPS5000-E 2-B</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold">Power Status</label>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="power_status2B" id="power_status_normal_2B" value="Normal">
+                          <label class="btn btn-outline-success" for="power_status_normal_2B">Normal</label>
+                          <input type="radio" class="btn-check" name="power_status2B" id="power_status_abnormal_2B" value="Failed">
+                          <label class="btn btn-outline-danger" for="power_status_abnormal_2B">Failed</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Battery(%)</label>
+                        <input type="number" id="ups5000_e_battery_2B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">Back-up Time (10>MIN)</label>
+                        <input type="number" id="ups5000_e_back_up_time_2B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L1</label>
+                        <input type="number" id="ups5000_e_current_load_l1_2B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L2</label>
+                        <input type="number" id="ups5000_e_current_load_l2_2B" class="form-control">
+                      </div>
+                      <div class="col-12 col-lg-4">
+                        <label class="form-label">OUTPUT LOAD (<3%) L3</label>
+                        <input type="number" id="ups5000_e_current_load_l3_2B" class="form-control">
+                      </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Remark</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <input type="text" id="ups5000_e_remark" class="form-control">
+                      </div>
+                    </div>  
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center mt-4 border-top pt-4">
+                    <button type="button" class="btn btn-outline-secondary px-4 py-2" onclick="viewRoomHistory()">
+                      <i class="bi bi-clock-history me-1"></i> View History
+                    </button>
+                    
+                    <button type="button" class="btn btn-corporate px-5 py-2 fs-5" onclick="submitData()">
                       <i class="bi bi-save me-1"></i> Save Data
                     </button>
                   </div>
+                  
                 </form>
 
               </div>
@@ -146,12 +1080,25 @@
 
         <div id="tableView" style="display: none;">
           <div class="card p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h4 class="fw-bold mb-0">Overall Maintenance History</h4>
-              <button class="btn btn-corporate-outline btn-sm" onclick="loadTableData()">
-                <i class="bi bi-arrow-clockwise"></i> Refresh
-              </button>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
+              <h4 class="fw-bold mb-0">Maintenance History</h4>
+              <div class="d-flex gap-2 align-items-center">
+                
+                <select id="historyFilter" class="form-select form-select-sm" style="min-width: 250px;" onchange="applyHistoryFilter()">
+                  <option value="all">All Systems</option>
+                </select>
+
+                <button class="btn btn-corporate-outline btn-sm" onclick="loadTableData()">
+                  <i class="bi bi-arrow-clockwise"></i> Refresh
+                </button>
+
+                <button class="btn btn-success btn-sm fw-bold px-3" onclick="generatePrintReport()">
+                  <i class="bi bi-file-earmark-pdf-fill me-1"></i> Save as PDF
+                </button>
+
+              </div>
             </div>
+            
             <div class="table-responsive">
               <table class="table table-hover align-middle">
                 <thead class="table-dark text-white">
@@ -160,20 +1107,19 @@
                     <th>Time</th>
                     <th>Room</th>
                     <th>Name</th>
-                    <th>Temp.</th>
-                    <th>Humidity</th>
-                    <th>Power</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody id="tableBody">
-                  <tr><td colspan="8" class="text-center py-4">No data loaded. Click Refresh.</td></tr>
+                  <tr>
+                    <td colspan="5" class="text-center py-4">No data loaded. Click Refresh.</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-
+  
       </div>
     </div>
   </div>
@@ -181,5 +1127,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
   <script src="app.js"></script>
+  <div id="printArea"></div>
 </body>
 </html>
