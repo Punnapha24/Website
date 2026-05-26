@@ -35,7 +35,8 @@ function checkAuth() {
 }
 
 async function handleLogin(e) {
-  e.preventDefault();
+  e.preventDefault(); 
+  
   const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
 
@@ -57,6 +58,43 @@ async function handleLogin(e) {
       switchView('dashboard');
     } else {
       Swal.fire({ icon: 'error', title: 'Login Failed', text: data.detail });
+    }
+  } catch (error) {
+    hideLoader();
+    Swal.fire({ icon: 'error', title: 'Network Error', text: 'Could not connect to server.' });
+  }
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+
+  // Basic validation so they don't submit blank fields
+  if (!username || !password) {
+    Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please enter a username and password to register.' });
+    return;
+  }
+
+  showLoader('Creating account...');
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+    hideLoader();
+
+    if (response.ok) {
+      // Success! Clear the password field and tell them to log in
+      Swal.fire({ icon: 'success', title: 'Welcome!', text: data.message });
+      document.getElementById('loginPassword').value = ''; 
+    } else {
+      // Show error (e.g., "Username already exists")
+      Swal.fire({ icon: 'error', title: 'Registration Failed', text: data.detail });
     }
   } catch (error) {
     hideLoader();
@@ -578,3 +616,4 @@ function parseJsonToReportDetails(extraData) {
 if (checkAuth()) {
   switchView('dashboard');
 }
+

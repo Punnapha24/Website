@@ -80,6 +80,37 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Token has expired")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
+    
+@app.post("/api/register")
+def register(request: LoginRequest):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # 1. Check if the username is already taken
+        cursor.execute("SELECT username FROM system_users WHERE username = %s", (request.username,))
+        if cursor.fetchone():
+            raise HTTPException(status_code=400, detail="Username already exists")
+
+        # 2. Hash the new password using the passlib context we already set up
+        hashed_pw = pwd_context.hash(request.password)
+
+        # 3. Save the new user to the database
+        cursor.execute("""
+            INSERT INTO system_users (username, hashed_password)
+            VALUES (%s, %s)
+        """, (request.username, hashed_pw))
+        
+        conn.commit()
+        return {"success": True, "message": f"Account '{request.username}' created successfully! You can now log in."}
+    
+    except HTTPException:
+        raise # Re-raise our custom 400 error
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail="Database error occurred")
+    finally:
+        cursor.close()
+        conn.close()    
 
 # --- Endpoints ---
 @app.post("/api/login")
