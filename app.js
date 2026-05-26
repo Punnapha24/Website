@@ -20,6 +20,64 @@ function getSystemIcon(systemName) {
   return 'bi-gear-wide-connected';
 }
 
+// --- Authentication Logic ---
+function checkAuth() {
+  const token = localStorage.getItem('jwt_token');
+  if (!token) {
+    document.getElementById('sidebar-wrapper').style.display = 'none';
+    document.querySelector('.navbar').style.display = 'none';
+    switchView('login');
+    return false;
+  }
+  document.getElementById('sidebar-wrapper').style.display = 'block';
+  document.querySelector('.navbar').style.display = 'flex';
+  return true;
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+
+  showLoader('Signing in...');
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+    hideLoader();
+
+    if (response.ok) {
+      localStorage.setItem('jwt_token', data.access_token);
+      document.getElementById('loginForm').reset();
+      checkAuth();
+      switchView('dashboard');
+    } else {
+      Swal.fire({ icon: 'error', title: 'Login Failed', text: data.detail });
+    }
+  } catch (error) {
+    hideLoader();
+    Swal.fire({ icon: 'error', title: 'Network Error', text: 'Could not connect to server.' });
+  }
+}
+
+function logout() {
+  localStorage.removeItem('jwt_token');
+  checkAuth();
+}
+
+// Modify your fetch helper headers to include the token
+function getAuthHeaders() {
+  const token = localStorage.getItem('jwt_token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+}
+
 // Menu toggle
 document.getElementById("menu-toggle").addEventListener("click", function(e) {
   e.preventDefault(); 
@@ -118,7 +176,7 @@ async function submitData() {
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload)
     });
 
@@ -209,7 +267,18 @@ function updateDashboardStatus() {
 
 // Switch View
 function switchView(view) {
-  if (view === 'dashboard') {
+
+  const views = ['dashboardView', 'formView', 'tableView', 'subSelectionView', 'loginView'];
+  views.forEach(v => {
+    const el = document.getElementById(v);
+    if(el) el.style.display = 'none';
+  });
+
+  if (view === 'login') {
+    document.getElementById('loginView').style.display = 'block';
+  }
+  
+  else if (view === 'dashboard') {
     document.getElementById('dashboardView').style.display = 'block'; 
     document.getElementById('formView').style.display = 'none'; 
     document.getElementById('tableView').style.display = 'none';
@@ -269,7 +338,7 @@ function applyHistoryFilter() {
 async function loadTableData() {
   showLoader('Loading history...');
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(API_URL, { headers: getAuthHeaders() });
     const records = await response.json();
     hideLoader();
     if (response.ok) {
@@ -503,4 +572,9 @@ function parseJsonToReportDetails(extraData) {
   
   htmlResult += '</div>'; // ปิดกล่อง Grid
   return htmlResult;
+}
+
+// Initialize App
+if (checkAuth()) {
+  switchView('dashboard');
 }
