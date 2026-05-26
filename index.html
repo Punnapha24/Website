@@ -48,94 +48,145 @@
         
         <div id="dashboardView">
           <h4 class="mb-4 fw-bold">Select a Form</h4>
-          <div class="row g-4">
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Electrical System')">
-                <span class="room-icon fw-bold">1</span>
-                <h5 class="fw-bold mb-0">Electrical System</h5>
+          
+          <div class="bg-white rounded-4 p-2" style="border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(13, 27, 42, 0.03);">
+            <div class="row g-0">
+              
+              <div class="col-12 col-lg-6 border-bottom border-end-lg">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Electrical System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-lightning-charge-fill"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">1. Electrical System</h6>
+                    <small class="text-muted">MDB, PDU, RMU & TROP</small>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
               </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('UPS System')">
-                <span class="room-icon fw-bold">2</span>
-                <h5 class="fw-bold mb-0">UPS System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Temperature System')">
-                <span class="room-icon fw-bold">3</span>
-                <h5 class="fw-bold mb-0">Temperature System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Fire Annunciator Panel System')">
-                <span class="room-icon fw-bold">4</span>
-                <h5 class="fw-bold mb-0">Fire Annunciator Panel System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Fire Suppression System')">
-                <span class="room-icon fw-bold">5</span>
-                <h5 class="fw-bold mb-0">Fire Suppression System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Water Leak Detection System')">
-                <span class="room-icon fw-bold">6</span>
-                <h5 class="fw-bold mb-0">Water Leak Detection System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Access Control System')">
-                <span class="room-icon fw-bold">7</span>
-                <h5 class="fw-bold mb-0">Access Control System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('CCTV')">
-                <span class="room-icon fw-bold">8</span>
-                <h5 class="fw-bold mb-0">CCTV</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Check Rack Customer')">
-                <span class="room-icon fw-bold">9</span>
-                <h5 class="fw-bold mb-0">Check Rack Customer</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Generator System')">
-                <span class="room-icon fw-bold">10</span>
-                <h5 class="fw-bold mb-0">Generator System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Fuel System')">
-                <span class="room-icon fw-bold">11</span>
-                <h5 class="fw-bold mb-0">Fuel System</h5>
-              </div>
-            </div>
-            
-            <div class="col-6 col-md-4 col-lg-3">
-              <div class="card room-card bg-white" onclick="openForm('Breaking Glass')">
-                <span class="room-icon fw-bold">12</span>
-                <h5 class="fw-bold mb-0">Breaking Glass</h5>
-              </div>
-            </div>
 
+              <div class="col-12 col-lg-6 border-bottom">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('UPS System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-battery-charging"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">2. UPS System</h6>
+                    <small class="text-muted">UPS 2000-G, UPS 5000-E</small>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom border-end-lg">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Temperature System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-thermometer-half"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">3. Temperature System</h6>
+                    <small class="text-muted">Service Rooms 1-4 & UPS Room</small>
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Fire Annunciator Panel System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-bell-fill"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">4. Fire Annunciator Panel System</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom border-end-lg">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Fire Suppression System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-fire text-danger"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">5. Fire Suppression System</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Water Leak Detection System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-droplet-fill text-info"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">6. Water Leak Detection System</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom border-end-lg">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Access Control System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-shield-lock-fill text-success"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">7. Access Control System</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('CCTV')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-camera-video-fill"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">8. CCTV</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom border-end-lg">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Check Rack Customer')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-server text-secondary"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">9. Check Rack Customer</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Generator System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-gear-wide-connected"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">10. Generator System</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom border-end-lg">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Fuel System')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-fuel-pump-fill text-warning"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">11. Fuel System</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-6 border-bottom">
+                <div class="d-flex align-items-center p-3 system-list-item" onclick="openForm('Breaking Glass')" style="cursor: pointer;">
+                  <div class="system-icon-box me-3"><i class="bi bi-exclamation-triangle-fill text-danger"></i></div>
+                  <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">12. Breaking Glass</h6>
+                    
+                  </div>
+                  <i class="bi bi-chevron-right text-muted"></i>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
+          </div>
 
         <div id="subSelectionView" style="display: none;">
           <button class="btn btn-sm btn-corporate-outline mb-4" onclick="switchView('dashboard')">

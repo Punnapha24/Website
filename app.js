@@ -4,6 +4,22 @@ let currentRecords = [];
 let currentEditingId = null;
 let completedRooms = [];
 
+function getSystemIcon(systemName) {
+  if (systemName.includes('Electrical')) return 'bi-lightning-charge-fill';
+  if (systemName.includes('UPS')) return 'bi-battery-charging text-primary';
+  if (systemName.includes('Temperature')) return 'bi-thermometer-half text-danger';
+  if (systemName.includes('Fire Annunciator')) return 'bi-bell-fill';
+  if (systemName.includes('Fire Suppression')) return 'bi-fire text-danger';
+  if (systemName.includes('Water Leak')) return 'bi-droplet-fill text-info';
+  if (systemName.includes('Access Control')) return 'bi-shield-lock-fill text-success';
+  if (systemName.includes('CCTV')) return 'bi-camera-video-fill';
+  if (systemName.includes('Check Rack')) return 'bi-server text-secondary';
+  if (systemName.includes('Generator')) return 'bi-gear-wide-connected';
+  if (systemName.includes('Fuel')) return 'bi-fuel-pump-fill text-warning';
+  if (systemName.includes('Breaking Glass')) return 'bi-exclamation-triangle-fill text-danger';
+  return 'bi-gear-wide-connected';
+}
+
 // Menu toggle
 document.getElementById("menu-toggle").addEventListener("click", function(e) {
   e.preventDefault(); 
@@ -136,16 +152,21 @@ function openSubSelection(mainSystemName, subCategories) {
   const container = document.getElementById('subCategoryContainer');
   container.innerHTML = '';
 
+  // ดึงไอคอนประจำระบบมาเตรียมไว้
+  const systemIcon = getSystemIcon(mainSystemName);
+
   subCategories.forEach(sub => {
     const fullRoomName = mainSystemName + " - " + sub;
     const isCompleted = completedRooms.includes(fullRoomName);
-    const iconClass = isCompleted ? 'bi-check-circle-fill icon-completed' : 'bi-check2-circle';
+    
+    // ถ้าทำฟอร์มเสร็จแล้ว จะเติมคลาส icon-completed เพื่อเปลี่ยนพื้นหลังเป็นสีเขียว
+    const completedClass = isCompleted ? 'icon-completed' : '';
 
     const col = document.createElement('div');
     col.className = 'col-12 col-md-4';
     col.innerHTML = `
       <div class="card room-card bg-white p-4" onclick="openForm('${fullRoomName}')">
-        <i class="bi ${iconClass} room-icon fs-1"></i>
+        <i class="bi ${systemIcon} ${completedClass} room-icon fs-1"></i>
         <h5 class="fw-bold mb-0">${sub}</h5>
       </div>
     `;
