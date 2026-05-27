@@ -391,4 +391,91 @@ body {
   border: 1px solid #CBD5E1;
   border-radius: 8px;
   color: var(--text-main);
+} 
+
+/* Analytics Dashboard Enhancements */
+.icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-top: 4px solid transparent !important;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.06) !important;
+}
+
+/* Colored Top Accents */
+.primary-stat { border-top-color: #3B82F6 !important; }
+.success-stat { border-top-color: #10B981 !important; }
+.danger-stat { border-top-color: #EF4444 !important; }
+
+#analyticsView {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@media print {
+  /* 1. Force Landscape and small margins */
+  @page {
+    size: A4 landscape;
+    margin: 5mm; 
+  }
+  
+  /* 2. Hide everything except the print area */
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  
+  #printArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: #000000;
+    background: #ffffff;
+  }
+
+  #page-content-wrapper, #wrapper {
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* 🌟 3. THE FIX: Clean, compact table boxes 🌟 */
+  .report-table {
+    zoom: 0.8; /* Scales down the whole table smoothly so 30+ columns fit */
+    width: 100% !important;
+    margin-bottom: 40px !important;
+  }
+
+  .report-table th, 
+  .report-table td {
+    font-size: 8pt !important;
+    padding: 6px 4px !important;    /* Tight padding */
+    white-space: nowrap !important; /* Prevents text from wrapping to a new line */
+    vertical-align: middle !important;
+    
+    /* These specific lines kill the giant empty boxes! */
+    height: auto !important; 
+    writing-mode: horizontal-tb !important; 
+    transform: none !important;
+  }
+
+  .report-table th {
+    font-weight: 700 !important;
+    background-color: #f1f5f9 !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+  }
+
+  .report-header {
+    border-bottom: none !important;
+
+  }
 }

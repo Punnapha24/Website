@@ -4,23 +4,28 @@ let currentRecords = [];
 let currentEditingId = null;
 let completedRooms = [];
 
+// ==========================================
+// 🛠️ SYSTEM ICONS
+// ==========================================
 function getSystemIcon(systemName) {
   if (systemName.includes('Electrical')) return 'bi-lightning-charge-fill';
   if (systemName.includes('UPS')) return 'bi-battery-charging';
-  if (systemName.includes('Temperature')) return 'bi-thermometer-half ';
+  if (systemName.includes('Temperature')) return 'bi-thermometer-half';
   if (systemName.includes('Fire Annunciator')) return 'bi-bell-fill';
-  if (systemName.includes('Fire Suppression')) return 'bi-fire ';
-  if (systemName.includes('Water Leak')) return 'bi-droplet-fill text-info';
+  if (systemName.includes('Fire Suppression')) return 'bi-fire';
+  if (systemName.includes('Water Leak')) return 'bi-droplet-fill';
   if (systemName.includes('Access Control')) return 'bi-shield-lock-fill';
   if (systemName.includes('CCTV')) return 'bi-camera-video-fill';
-  if (systemName.includes('Check Rack')) return 'bi-server text-secondary';
+  if (systemName.includes('Check Rack')) return 'bi-server';
   if (systemName.includes('Generator')) return 'bi-gear-wide-connected';
   if (systemName.includes('Fuel')) return 'bi-fuel-pump-fill';
   if (systemName.includes('Breaking Glass')) return 'bi-exclamation-triangle-fill';
   return 'bi-gear-wide-connected';
 }
 
-// Authentication Logic 
+// ==========================================
+// 🔒 AUTHENTICATION LOGIC
+// ==========================================
 function checkAuth() {
   const token = localStorage.getItem('jwt_token');
   if (!token) {
@@ -32,6 +37,26 @@ function checkAuth() {
   document.getElementById('sidebar-wrapper').style.display = 'block';
   document.querySelector('.navbar').style.display = 'flex';
   return true;
+}
+
+// Extract Username from Token
+function getUsernameFromToken() {
+  const token = localStorage.getItem('jwt_token');
+  if (!token) return 'Unknown User';
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.sub; 
+  } catch (e) {
+    return 'Unknown User';
+  }
+}
+
+function getAuthHeaders() {
+  const token = localStorage.getItem('jwt_token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
 }
 
 async function handleLogin(e) {
@@ -71,7 +96,6 @@ async function handleRegister(e) {
   const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
 
-  // Basic validation so they don't submit blank fields
   if (!username || !password) {
     Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please enter a username and password to register.' });
     return;
@@ -89,11 +113,9 @@ async function handleRegister(e) {
     hideLoader();
 
     if (response.ok) {
-      // Success! Clear the password field and tell them to log in
       Swal.fire({ icon: 'success', title: 'Welcome!', text: data.message });
       document.getElementById('loginPassword').value = ''; 
     } else {
-      // Show error (e.g., "Username already exists")
       Swal.fire({ icon: 'error', title: 'Registration Failed', text: data.detail });
     }
   } catch (error) {
@@ -107,42 +129,75 @@ function logout() {
   checkAuth();
 }
 
-// Modify fetch helper headers to include the token
-function getAuthHeaders() {
-  const token = localStorage.getItem('jwt_token');
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  };
-}
-
-// Menu toggle
+// ==========================================
+// 📱 NAVIGATION & VIEWS
+// ==========================================
 document.getElementById("menu-toggle").addEventListener("click", function(e) {
   e.preventDefault(); 
   document.getElementById("wrapper").classList.toggle("toggled");
 });
 
-// Open Form
+function switchView(view) {
+  // 1. Hide ALL views first
+  const views = ['dashboardView', 'formView', 'tableView', 'subSelectionView', 'loginView', 'analyticsView'];
+  views.forEach(v => {
+    const el = document.getElementById(v);
+    if(el) el.style.display = 'none';
+  });
+
+  // 2. Remove active highlights from sidebar
+  document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+
+  // 3. Show the requested view
+  if (view === 'login') {
+    document.getElementById('loginView').style.display = 'block';
+  } 
+  else if (view === 'dashboard') {
+    document.getElementById('dashboardView').style.display = 'block'; 
+    document.getElementById('nav-dashboard').classList.add('active'); 
+    updateDashboardStatus();
+  } 
+  else if (view === 'table') {
+    document.getElementById('tableView').style.display = 'block';
+    document.getElementById('nav-table').classList.add('active'); 
+    loadTableData();
+  }
+  else if (view === 'analytics') {
+    document.getElementById('analyticsView').style.display = 'block';
+    document.getElementById('nav-analytics').classList.add('active');
+    loadAnalyticsData(); 
+  }
+  // 👇 THESE TWO WERE MISSING! 👇
+  else if (view === 'formView') {
+    document.getElementById('formView').style.display = 'block';
+  }
+  else if (view === 'subSelectionView') {
+    document.getElementById('subSelectionView').style.display = 'block';
+  }
+
+  // 4. Hide sidebar on mobile after clicking
+  if (window.innerWidth < 768) { document.getElementById("wrapper").classList.remove("toggled"); }
+}
+
+// ==========================================
+// 📝 FORM HANDLING
+// ==========================================
 function openForm(roomName) {
   try { resetForm(); } catch (error) { console.warn("Reset error:", error); }
 
-  // Sub-category
   if (roomName === 'Electrical System') {
     openSubSelection(roomName, ["1.1 MDB", "1.2 PDU", "1. RMU & TROP"]);
     return;
   }
-
-if (roomName === 'UPS System') {
+  if (roomName === 'UPS System') {
     openSubSelection(roomName, ["2.1 UPS 2000-G & Battery", "2.2 UPS 5000-E & Battery"]);
     return;
   }
-
   if (roomName === 'Temperature System') {
     openSubSelection(roomName, ["3.1 Service Room 1", "3.2 Service Room 2", "3.3 Service Room 3", "3.4 Service Room 4","3. UPS & Battery Room"]);
     return;
   }
 
-  // Dynamic Forms 
   document.querySelectorAll('.dynamic-form-group').forEach(el => el.style.display = 'none');
 
   if (roomName.includes('Electrical System')) {
@@ -150,31 +205,57 @@ if (roomName === 'UPS System') {
     else if (roomName.includes('1.2 PDU')) document.getElementById('form-pdu').style.display = 'block';
     else if (roomName.includes('1. RMU & TROP')) document.getElementById('form-rmu').style.display = 'block';
   }
-
   if(roomName.includes('UPS System')) {
-    if (roomName.includes('2.1 UPS 2000-G & Battery')) {
-      document.getElementById('form-ups-2000-g').style.display = 'block';
-    } else if (roomName.includes('2.2 UPS 5000-E & Battery')) {
-      document.getElementById('form-ups-5000-e').style.display = 'block';
-    }
+    if (roomName.includes('2.1 UPS 2000-G & Battery')) document.getElementById('form-ups-2000-g').style.display = 'block';
+    else if (roomName.includes('2.2 UPS 5000-E & Battery')) document.getElementById('form-ups-5000-e').style.display = 'block';
   }
 
-  // lead to dynamic form page
   document.getElementById('room').value = roomName;
   document.getElementById('formTitle').innerText = "Maintenance: " + roomName;
-
-  document.getElementById('name').value = getUsernameFromToken();
+  document.getElementById('name').value = getUsernameFromToken(); // Auto-fill name
   
-  document.getElementById('dashboardView').style.display = 'none';
-  document.getElementById('tableView').style.display = 'none';
-  document.getElementById('subSelectionView').style.display = 'none';
-  document.getElementById('formView').style.display = 'block';
-  
-  document.getElementById('nav-dashboard').classList.add('active');
-  document.getElementById('nav-table').classList.remove('active');
+  switchView('formView');
 }
 
-// Submit Data
+function openSubSelection(mainSystemName, subCategories) {
+  switchView('subSelectionView');
+  document.getElementById('subSelectionTitle').innerText = "Select Category for: " + mainSystemName;
+  
+  const container = document.getElementById('subCategoryContainer');
+  container.innerHTML = '';
+  const systemIcon = getSystemIcon(mainSystemName);
+
+  subCategories.forEach(sub => {
+    const fullRoomName = mainSystemName + " - " + sub;
+    const isCompleted = completedRooms.includes(fullRoomName);
+    const completedClass = isCompleted ? 'icon-completed' : '';
+
+    const col = document.createElement('div');
+    col.className = 'col-12 col-md-4';
+    col.innerHTML = `
+      <div class="card room-card bg-white p-4" onclick="openForm('${fullRoomName}')">
+        <i class="bi ${systemIcon} ${completedClass} room-icon fs-1"></i>
+        <h5 class="fw-bold mb-0">${sub}</h5>
+      </div>
+    `;
+    container.appendChild(col);
+  });
+}
+
+function resetForm() {
+  currentEditingId = null; 
+  const form = document.getElementById('maintenanceForm');
+  if(form) {
+    form.reset();
+    form.classList.remove('was-validated');
+  }
+  document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+  
+  const now = new Date(); 
+  document.getElementById('date').valueAsDate = now;
+  document.getElementById('time').value = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+}
+
 async function submitData() {
   const form = document.getElementById('maintenanceForm');
   
@@ -203,12 +284,9 @@ async function submitData() {
   const payload = {
     id: currentEditingId, 
     room: document.getElementById('room').value,
-    name: document.getElementById('name').value,
+    name: "", // Handled automatically by backend now
     date: document.getElementById('date').value,
     time: document.getElementById('time').value,
-    temperature: null,
-    humidity: 0,
-    power: 0,
     extra_data: extraData
   };
   
@@ -229,7 +307,11 @@ async function submitData() {
       Swal.fire({ icon: 'success', title: 'Success!', text: result.message, confirmButtonColor: '#0F172A', timer: 1500 })
         .then(() => { switchView('dashboard'); });
     } else { 
-      Swal.fire({ icon: 'error', title: 'Error', text: result.message }); 
+      if (response.status === 401) {
+        Swal.fire({ icon: 'warning', title: 'Session Expired', text: 'Please log in again.' }).then(() => logout());
+      } else {
+        Swal.fire({ icon: 'error', title: 'Error', text: result.detail || result.message }); 
+      }
     }
   } catch (error) {
     hideLoader();
@@ -237,114 +319,12 @@ async function submitData() {
   }
 }
 
-// Sub-selection View
-function openSubSelection(mainSystemName, subCategories) {
-  document.getElementById('dashboardView').style.display = 'none';
-  document.getElementById('tableView').style.display = 'none';
-  document.getElementById('formView').style.display = 'none';
-  document.getElementById('subSelectionView').style.display = 'block';
-
-  document.getElementById('subSelectionTitle').innerText = "Select Category for: " + mainSystemName;
-  
-  const container = document.getElementById('subCategoryContainer');
-  container.innerHTML = '';
-
-  // icon
-  const systemIcon = getSystemIcon(mainSystemName);
-
-  subCategories.forEach(sub => {
-    const fullRoomName = mainSystemName + " - " + sub;
-    const isCompleted = completedRooms.includes(fullRoomName);
-    
-    // icon-completed (green)
-    const completedClass = isCompleted ? 'icon-completed' : '';
-
-    const col = document.createElement('div');
-    col.className = 'col-12 col-md-4';
-    col.innerHTML = `
-      <div class="card room-card bg-white p-4" onclick="openForm('${fullRoomName}')">
-        <i class="bi ${systemIcon} ${completedClass} room-icon fs-1"></i>
-        <h5 class="fw-bold mb-0">${sub}</h5>
-      </div>
-    `;
-    container.appendChild(col);
-  });
-}
-
-// Check Dashboard Complete Status
-function updateDashboardStatus() {
-  const cards = document.querySelectorAll('#dashboardView .room-card');
-  
-  cards.forEach(card => {
-    const roomName = card.querySelector('h5').innerText.trim();
-    const iconElement = card.querySelector('.room-icon');
-    let isComplete = false;
-
-    if (roomName === 'Electrical System') {
-      const subs = ["1.1 MDB", "1.2 PDU", "1. RMU & TROP"];
-      isComplete = subs.every(sub => completedRooms.includes(roomName + " - " + sub));
-    }
-    else if (roomName === 'UPS System') {
-      const subs = ["2.1 UPS 2000-G & Battery", "2.2 UPS 5000-E & Battery"];
-      isComplete = subs.every(sub => completedRooms.includes(roomName + " - " + sub));
-    } 
-    else if (roomName === 'Temperature System') { 
-      const subs = ["Room 1", "Room 2", "Room 3", "Room 4"];
-      isComplete = subs.every(sub => completedRooms.includes(roomName + " - " + sub));
-    } 
-    else {
-      isComplete = completedRooms.includes(roomName);
-    }
-
-    if (isComplete) {
-      iconElement.classList.add('icon-completed');
-    } else {
-      iconElement.classList.remove('icon-completed');
-    }
-  });
-}
-
-// Switch View
-function switchView(view) {
-
-  const views = ['dashboardView', 'formView', 'tableView', 'subSelectionView', 'loginView'];
-  views.forEach(v => {
-    const el = document.getElementById(v);
-    if(el) el.style.display = 'none';
-  });
-
-  if (view === 'login') {
-    document.getElementById('loginView').style.display = 'block';
-  }
-  
-  else if (view === 'dashboard') {
-    document.getElementById('dashboardView').style.display = 'block'; 
-    document.getElementById('formView').style.display = 'none'; 
-    document.getElementById('tableView').style.display = 'none';
-    document.getElementById('subSelectionView').style.display = 'none';
-    document.getElementById('nav-dashboard').classList.add('active'); 
-    document.getElementById('nav-table').classList.remove('active');
-    updateDashboardStatus();
-  } else if (view === 'table') {
-    document.getElementById('dashboardView').style.display = 'none'; 
-    document.getElementById('formView').style.display = 'none'; 
-    document.getElementById('tableView').style.display = 'block';
-    document.getElementById('subSelectionView').style.display = 'none';
-    document.getElementById('nav-dashboard').classList.remove('active'); 
-    document.getElementById('nav-table').classList.add('active');
-    loadTableData();
-  }
-  if (window.innerWidth < 768) { document.getElementById("wrapper").classList.remove("toggled"); }
-}
-
-// Load Table
-
-// dropdown filter
+// ==========================================
+// 📋 TABLE & HISTORY
+// ==========================================
 function populateFilterDropdown() {
   const filterSelect = document.getElementById('historyFilter');
   const currentValue = filterSelect.value;
-  
-  // sub categories
   const uniqueRooms = [...new Set(currentRecords.map(r => r.room))].filter(Boolean).sort();
   
   filterSelect.innerHTML = '<option value="all">All Systems</option>';
@@ -363,13 +343,11 @@ function applyHistoryFilter() {
   if (selectedRoom === 'all') {
     renderTable(currentRecords);
   } else {
-    
     const filteredData = currentRecords.filter(r => r.room === selectedRoom);
     renderTable(filteredData);
   }
 }
 
-// load data from server to table
 async function loadTableData() {
   showLoader('Loading history...');
   try {
@@ -378,23 +356,30 @@ async function loadTableData() {
     hideLoader();
     if (response.ok) {
       currentRecords = records;
-      populateFilterDropdown(); // สร้างตัวกรองใหม่
-      applyHistoryFilter();     // กรองข้อมูลล่าสุดโชว์บนตาราง
-    } else { Swal.fire({ icon: 'error', title: 'Error', text: 'Failed to load' }); }
-  } catch (error) { hideLoader(); Swal.fire({ icon: 'error', title: 'Network Error', text: 'Cannot connect to Server.' }); }
+      populateFilterDropdown(); 
+      applyHistoryFilter();     
+    } else { 
+      if (response.status === 401) {
+        Swal.fire({ icon: 'warning', title: 'Session Expired', text: 'Your security token expired. Please log in again.' }).then(() => logout());
+      } else {
+        Swal.fire({ icon: 'error', title: 'Database Error', text: records.detail || 'Failed to load records' }); 
+      }
+    }
+  } catch (error) { 
+    hideLoader(); 
+    Swal.fire({ icon: 'error', title: 'Network Error', text: 'Cannot connect to Server.' }); 
+  }
 }
 
-// history view with filter
 function viewRoomHistory() {
-  const currentRoom = document.getElementById('room').value; // จำชื่อห้องปัจจุบันไว้
-  switchView('table'); // สลับไปหน้าตาราง
+  const currentRoom = document.getElementById('room').value; 
+  switchView('table'); 
   
-  // wait for table to load and filter to populate, then set filter to current room
   setTimeout(() => {
     const filterSelect = document.getElementById('historyFilter');
     if ([...filterSelect.options].some(opt => opt.value === currentRoom)) {
       filterSelect.value = currentRoom;
-      applyHistoryFilter(); // filter to current room's history
+      applyHistoryFilter(); 
     } else {
       filterSelect.value = 'all';
       applyHistoryFilter();
@@ -403,7 +388,6 @@ function viewRoomHistory() {
   }, 400); 
 }
 
-// Render Table
 function renderTable(records) {
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = records.length ? '' : '<tr><td colspan="5" class="text-center py-4">No records found.</td></tr>';
@@ -425,20 +409,21 @@ function renderTable(records) {
     });
 }
 
-// Edit Record
 function editRecord(id) {
   const searchId = isNaN(Number(id)) ? id : Number(id);
   const record = currentRecords.find(r => r.id === searchId || String(r.id) === String(id));
   if (!record) return;
 
-  currentEditingId = record.id; 
+  // 1. Open the form first (this resets the fields)
   openForm(record.room || 'Unknown Room'); 
-  
-  
+
+  // 2. NOW set the ID (so it doesn't get wiped by resetForm)
+  currentEditingId = record.id; 
+
+  // 3. Populate the fields
   try { let d = new Date(record.date); document.getElementById('date').value = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : record.date; } catch(e) {}
   try { let t = new Date('1970-01-01T' + record.time); document.getElementById('time').value = !isNaN(t.getTime()) ? `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}` : record.time; } catch(e) {}
 
-  
   if(record.extra_data) {
     for (const [key, value] of Object.entries(record.extra_data)) {
       const targetInput = document.getElementById(key) || document.querySelector(`input[name="${key}"][value="${value}"]`);
@@ -454,32 +439,173 @@ function editRecord(id) {
   
   document.getElementById('formTitle').innerText = "Edit Record: " + (record.room || '');
 }
+// ==========================================
+// 📊 MONTHLY ANALYTICS & CHARTS
+// ==========================================
+let barChartInstance = null;
+let doughnutChartInstance = null;
 
-// Reset Form
-function resetForm() {
-  currentEditingId = null; 
-  const form = document.getElementById('maintenanceForm');
-  if(form) {
-    form.reset();
-    form.classList.remove('was-validated');
+async function loadAnalyticsData() {
+  showLoader('Loading Analytics...');
+  try {
+    const response = await fetch(API_URL, { headers: getAuthHeaders() });
+    const records = await response.json();
+    hideLoader();
+    
+    if (response.ok) {
+        currentRecords = records;
+        populateMonthDropdown();
+        renderAnalytics();
+    } else {
+        if (response.status === 401) {
+            Swal.fire({ icon: 'warning', title: 'Session Expired', text: 'Your security token expired. Please log in again.' }).then(() => logout());
+        } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: records.detail || 'Failed to load analytics' });
+        }
+    }
+  } catch (error) {
+    hideLoader();
+    Swal.fire({ icon: 'error', title: 'Network Error', text: 'Cannot connect to Server.' });
   }
-  document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+}
+
+function populateMonthDropdown() {
+  const filter = document.getElementById('monthFilter');
+  const currentVal = filter.value;
   
-  const now = new Date(); 
-  document.getElementById('date').valueAsDate = now;
-  document.getElementById('time').value = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  const months = [...new Set(currentRecords.map(r => r.date.substring(0, 7)))].sort().reverse();
+  
+  filter.innerHTML = '<option value="all">All Time</option>';
+  months.forEach(m => {
+    const dateObj = new Date(m + '-01');
+    const monthName = dateObj.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    filter.innerHTML += `<option value="${m}">${monthName}</option>`;
+  });
+  
+  if (months.includes(currentVal)) filter.value = currentVal;
 }
 
-// Helpers
-function showLoader(text) { document.getElementById('loadingText').innerText = text || 'Processing...'; document.getElementById('overlay').style.display = 'block'; }
-function hideLoader() { document.getElementById('overlay').style.display = 'none'; }
-function formatDateDisplay(dateStr) { 
-  if(!dateStr) return ''; 
-  let d = new Date(dateStr); 
-  return isNaN(d.getTime()) ? dateStr : d.toLocaleDateString('en-GB'); 
+function renderAnalytics() {
+  const selectedMonth = document.getElementById('monthFilter').value;
+  
+  const data = selectedMonth === 'all' 
+    ? currentRecords 
+    : currentRecords.filter(r => r.date.startsWith(selectedMonth));
+
+  let issuesCount = 0;
+  let systemCounts = {};
+
+  data.forEach(r => {
+    const room = r.room || 'Unknown';
+    systemCounts[room] = (systemCounts[room] || 0) + 1;
+
+    if (r.extra_data) {
+      const values = Object.values(r.extra_data).map(v => String(v).toLowerCase());
+      if (values.includes('trip') || values.includes('failed') || values.includes('abnormal')) {
+        issuesCount++;
+      }
+    }
+  });
+
+  const totalChecks = data.length;
+  const normalChecks = totalChecks - issuesCount;
+
+  // Update Summary Cards
+  document.getElementById('statTotalChecks').innerText = totalChecks;
+  document.getElementById('statNormal').innerText = normalChecks;
+  document.getElementById('statIssues').innerText = issuesCount;
+
+  // Update Center Percentage
+  const healthPercent = totalChecks === 0 ? 100 : Math.round((normalChecks / totalChecks) * 100);
+  document.getElementById('healthPercentage').innerText = healthPercent + '%';
+
+  // --- Beautiful Bar Chart ---
+  const ctxBar = document.getElementById('barChart').getContext('2d');
+  if (barChartInstance) barChartInstance.destroy(); 
+  
+  // Clean up long labels (e.g. "Electrical System - 1.1 MDB" -> "1.1 MDB")
+  const niceLabels = Object.keys(systemCounts).map(label => {
+    if(label.includes(' - ')) return label.split(' - ')[1];
+    return label;
+  });
+
+  // Create smooth blue gradient
+  let gradient = ctxBar.createLinearGradient(0, 0, 0, 320);
+  gradient.addColorStop(0, 'rgba(59, 130, 246, 1)'); 
+  gradient.addColorStop(1, 'rgba(59, 130, 246, 0.4)');
+
+  barChartInstance = new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: niceLabels,
+      datasets: [{
+        label: 'Total Inspections',
+        data: Object.values(systemCounts),
+        backgroundColor: gradient,
+        borderRadius: 6,
+        barThickness: 'flex',
+        maxBarThickness: 45
+      }]
+    },
+    options: { 
+      responsive: true, 
+      maintainAspectRatio: false, // Critical for custom heights
+      plugins: { 
+        legend: { display: false },
+        tooltip: { backgroundColor: '#1E293B', padding: 12, cornerRadius: 8 }
+      },
+      scales: { 
+        y: { 
+          beginAtZero: true, 
+          grid: { color: '#F1F5F9', drawBorder: false },
+          border: { display: false }
+        },
+        x: {
+          grid: { display: false, drawBorder: false },
+          border: { display: false },
+          ticks: { font: { family: 'Inter', size: 11 } }
+        }
+      } 
+    }
+  });
+
+  // --- Sleek Doughnut Chart ---
+  const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+  if (doughnutChartInstance) doughnutChartInstance.destroy(); 
+  
+  doughnutChartInstance = new Chart(ctxDoughnut, {
+    type: 'doughnut',
+    data: {
+      labels: ['Healthy', 'Anomalies'],
+      datasets: [{
+        data: [normalChecks, issuesCount],
+        backgroundColor: ['#10B981', '#EF4444'],
+        hoverBackgroundColor: ['#059669', '#DC2626'],
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: { 
+      responsive: true, 
+      maintainAspectRatio: false, // Critical for custom heights
+      cutout: '82%', // Makes it a beautiful thin ring
+      plugins: {
+        legend: { 
+          position: 'bottom',
+          labels: { usePointStyle: true, padding: 20, font: { family: 'Inter', size: 12 } }
+        },
+        tooltip: { backgroundColor: '#1E293B', padding: 12, cornerRadius: 8 }
+      }
+    }
+  });
 }
 
-//report generation
+// ==========================================
+// 🖨️ PDF PRINTING
+// ==========================================
+// ==========================================
+// 🖨️ PDF PRINTING (DYNAMIC COLUMNS)
+// ==========================================
 function generatePrintReport() {
   const filterValue = document.getElementById('historyFilter').value;
   const printArea = document.getElementById('printArea');
@@ -490,126 +616,150 @@ function generatePrintReport() {
   }
 
   if (reportData.length === 0) {
-    Swal.fire({ icon: 'info', title: 'No Data', text: 'No data available' });
+    Swal.fire({ icon: 'info', title: 'No Data', text: 'No data available to print.' });
     return;
   }
 
   const now = new Date();
-  const filterText = filterValue === 'all' ? 'All Systems in Inventory' : filterValue;
+  const filterText = filterValue === 'all' ? 'All Systems Summary' : filterValue;
 
-  // เริ่มสร้างโครงร่างหน้าเอกสาร A4
   let html = `
-    <div class="p-3">
-      <div class="report-header text-center">
-        <h2 class="fw-bold mb-1" style="letter-spacing: 0.05em;">MAINTENANCE SUMMARY REPORT</h2>
-        <p class="text-muted mb-0">MONTHLY REPORT</p>
+    <div class="p-3 pt-0"> 
+      
+      <div class="report-header text-center mt-0 pt-0" style="padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 class="fw-bold mb-1 mt-0 pt-0" style="letter-spacing: 0.05em;">MONTHLY MAINTENANCE REPORT</h2>
+        <p class="text-muted mb-0 text-uppercase">${filterText}</p>
       </div>
-
+      
       <div class="row mb-4 fs-6">
         <div class="col-6">
-          <strong>System Data for Report:</strong> ${filterText}<br>
-          <strong>Total Records:</strong> ${reportData.length} items
-        </div>
+          </div>
         <div class="col-6 text-end">
-          <strong>Print Date:</strong> ${now.toLocaleDateString('th-TH')} <br>
-          
+          <strong>Print Date:</strong> ${now.toLocaleDateString('en-GB')}
         </div>
       </div>
-
-      <table class="table table-bordered report-table align-middle">
-        <thead>
-          <tr class="text-center">
-            <th style="width: 12%;">Date</th>
-            <th style="width: 10%;">Time</th>
-            <th style="width: 25%;">System</th>
-            <th style="width: 18%;">Inspector</th>
-            <th style="width: 35%;">Detailed Inspection Status</th>
-          </tr>
-        </thead>
-        <tbody>
   `;
 
-
+  // 1. Group records by System Room (so "All Systems" prints neatly)
+  const groupedRecords = {};
   reportData.forEach(r => {
-    
-    const detailsHtml = parseJsonToReportDetails(r.extra_data);
-    
-    html += `
-      <tr>
-        <td class="text-center">${formatDateDisplay(r.date)}</td>
-        <td class="text-center">${r.time}</td>
-        <td><span class="fw-bold">${r.room || '-'}</span></td>
-        <td class="text-center fw-bold">${r.name}</td>
-        <td>${detailsHtml}</td>
-      </tr>
-    `;
+    const room = r.room || 'Unknown System';
+    if (!groupedRecords[room]) groupedRecords[room] = [];
+    groupedRecords[room].push(r);
   });
 
-  
+  // 2. Loop through each System and generate its own specific Table
+  for (const [roomName, records] of Object.entries(groupedRecords)) {
+    
+    html += `<h5 class="fw-bold mt-5 mb-2 text-dark" style="border-bottom: 2px solid #0F172A; padding-bottom: 5px;">${roomName}</h5>`;
+    
+    // Find all unique fields (columns) for this specific system
+    let dynamicColumns = new Set();
+    records.forEach(r => {
+      if (r.extra_data) {
+        Object.keys(r.extra_data).forEach(key => dynamicColumns.add(key));
+      }
+    });
+    const columnsArray = Array.from(dynamicColumns);
+
+    // Build the Table Headers
+    html += `
+      <table class="table table-bordered report-table align-middle text-center" style="font-size: 8.5pt;">
+        <thead class="table-light">
+          <tr>
+            <th style="width: 80px;">Date</th>
+            <th style="width: 60px;">Time</th>
+    `;
+    
+    columnsArray.forEach(col => {
+      let cleanCol = col.replace(/_/g, ' ').toUpperCase();
+      html += `<th>${cleanCol}</th>`;
+    });
+
+    html += `   <th>Checked By</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    // Build the Table Rows
+    records.forEach(r => {
+      html += `
+        <tr>
+          <td>${formatDateDisplay(r.date)}</td>
+          <td>${r.time}</td>`;
+      
+      // Fill in the dynamic columns
+      columnsArray.forEach(col => {
+        let val = (r.extra_data && r.extra_data[col] !== undefined && r.extra_data[col] !== "") ? r.extra_data[col] : '-';
+        
+        let valStyle = '';
+        const lowerVal = String(val).toLowerCase();
+        
+        if (!isNaN(val) && val !== '-') {
+          val = Number(val).toLocaleString(); // Add commas to numbers
+        }
+
+        html += `<td style="${valStyle}">${val}</td>`;
+      });
+
+      html += `<td class="fw-bold">${r.name || '-'}</td>
+        </tr>`;
+    });
+
+    html += `</tbody></table>`;
+  }
+
+
 
   printArea.innerHTML = html;
-  window.print();
+  
+  // Give the DOM a tiny fraction of a second to render the tables before triggering print
+  setTimeout(() => { window.print(); }, 100);
 }
 
+// NOTE: You can safely DELETE the old `parseJsonToReportDetails()` function 
+// because we don't need it anymore!
 
+// ==========================================
+// ⚙️ HELPERS & INITIALIZATION
+// ==========================================
+function showLoader(text) { document.getElementById('loadingText').innerText = text || 'Processing...'; document.getElementById('overlay').style.display = 'block'; }
+function hideLoader() { document.getElementById('overlay').style.display = 'none'; }
+function formatDateDisplay(dateStr) { 
+  if(!dateStr) return ''; 
+  let d = new Date(dateStr); 
+  return isNaN(d.getTime()) ? dateStr : d.toLocaleDateString('en-GB'); 
+}
 
-function parseJsonToReportDetails(extraData) {
-  if (!extraData || Object.keys(extraData).length === 0) {
-    return `<div class="text-muted fst-italic text-center">- No Data -</div>`;
-  }
+function updateDashboardStatus() {
+  const cards = document.querySelectorAll('#dashboardView .room-card');
+  cards.forEach(card => {
+    const roomName = card.querySelector('h5').innerText.trim();
+    const iconElement = card.querySelector('.room-icon');
+    let isComplete = false;
 
-  // grid container for details
-  let htmlResult = '<div class="detail-container">';
-  
-  for (const [key, value] of Object.entries(extraData)) {
-    // clean key name 
-    let cleanKey = key.replace(/_/g, ' ').toUpperCase();
-    
-    // color and formatting based on value
-    let valStyle = '';
-    let displayValue = value;
-    
-    // check value to determine color and formatting
-    if (String(value).toLowerCase() === 'trip') {
-      valStyle = 'color: #dc2626; font-weight: 800;'; // แดงเข้ม
-    } else if (String(value).toLowerCase() === 'on') {
-      valStyle = 'color: #16a34a;'; // เขียว
-    } else if (String(value).toLowerCase() === 'off') {
-      valStyle = 'color: #64748b;'; // เทา
-    } else if (!isNaN(value) && value !== '') {
-      // if numeric, format with commas
-      displayValue = Number(value).toLocaleString();
-      valStyle = 'color: #0f172a;'; 
+    if (roomName === 'Electrical System') {
+      const subs = ["1.1 MDB", "1.2 PDU", "1. RMU & TROP"];
+      isComplete = subs.every(sub => completedRooms.includes(roomName + " - " + sub));
+    }
+    else if (roomName === 'UPS System') {
+      const subs = ["2.1 UPS 2000-G & Battery", "2.2 UPS 5000-E & Battery"];
+      isComplete = subs.every(sub => completedRooms.includes(roomName + " - " + sub));
+    } 
+    else if (roomName === 'Temperature System') { 
+      const subs = ["Room 1", "Room 2", "Room 3", "Room 4"];
+      isComplete = subs.every(sub => completedRooms.includes(roomName + " - " + sub));
+    } 
+    else {
+      isComplete = completedRooms.includes(roomName);
     }
 
-    // append to result with label and value
-    htmlResult += `
-      <div class="detail-item">
-        <span class="detail-label">${cleanKey}</span>
-        <span class="detail-value" style="${valStyle}">${displayValue}</span>
-      </div>
-    `;
-  }
-  
-  htmlResult += '</div>'; // close container
-  return htmlResult;
+    if (isComplete) iconElement.classList.add('icon-completed');
+    else iconElement.classList.remove('icon-completed');
+  });
 }
 
 // Initialize App
 if (checkAuth()) {
   switchView('dashboard');
 }
-
-// Extract Username from Token
-function getUsernameFromToken() {
-  const token = localStorage.getItem('jwt_token');
-  if (!token) return 'Unknown User';
-  try {
-    // A JWT has 3 parts. The middle part (index 1) holds the data payload.
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.sub; // 'sub' is where FastAPI saves the username
-  } catch (e) {
-    return 'Unknown User';
-  }
-}
-

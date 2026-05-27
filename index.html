@@ -33,6 +33,10 @@
           <i class="bi bi-table me-2"></i> History & Edit
         </a>
 
+        <a href="#" class="list-group-item list-group-item-action" id="nav-analytics" onclick="switchView('analytics')">
+          <i class="bi bi-bar-chart-fill me-2"></i> Analytics
+        </a>
+
         <a href="#" class="list-group-item list-group-item-action text-danger mt-auto border-top" onclick="logout()">
           <i class="bi bi-box-arrow-left me-2"></i> Logout
         </a>
@@ -1156,6 +1160,7 @@
         </div>
 
         <div id="tableView" style="display: none;">
+          
           <div class="card p-3 p-md-4">
             <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center mb-3 gap-3">
               <h4 class="fw-bold mb-0">History</h4>
@@ -1199,6 +1204,80 @@
             </div>
           </div>
         </div>
+
+        <div id="analyticsView" style="display: none;">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+            <div>
+              <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-graph-up text-primary me-2"></i>System Analytics</h4>
+              <p class="text-muted mb-0 small">Overview of monthly maintenance performance</p>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+              <select id="monthFilter" class="form-select form-select-sm fw-medium shadow-sm border-0" style="min-width: 150px; background-color: white;" onchange="renderAnalytics()">
+                <option value="all">All Time</option>
+              </select>
+              <!-- <button class="btn btn-corporate btn-sm px-3 shadow-sm rounded-3" onclick="window.print()">
+                <i class="bi bi-printer-fill me-1"></i> Print
+              </button> -->
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="card h-100 p-4 border-0 shadow-sm rounded-4 stat-card primary-stat">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="text-muted mb-0 fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.8rem;">Total Inspections</h6>
+                  <div class="icon-circle text-primary" style="background-color: #eff6ff;"><i class="bi bi-clipboard2-check-fill"></i></div>
+                </div>
+                <h2 class="fw-bolder mb-0 text-dark display-5" id="statTotalChecks">0</h2>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100 p-4 border-0 shadow-sm rounded-4 stat-card success-stat">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="text-muted mb-0 fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.8rem;">Normal</h6>
+                  <div class="icon-circle text-success" style="background-color: #ecfdf5;"><i class="bi bi-check-circle-fill"></i></div>
+                </div>
+                <h2 class="fw-bolder mb-0 text-success display-5" id="statNormal">0</h2>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100 p-4 border-0 shadow-sm rounded-4 stat-card danger-stat">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="text-muted mb-0 fw-bold text-uppercase" style="letter-spacing: 0.5px; font-size: 0.8rem;">Anomalies</h6>
+                  <div class="icon-circle text-danger" style="background-color: #fef2f2;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                </div>
+                <h2 class="fw-bolder mb-0 text-danger display-5" id="statIssues">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-8">
+              <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h6 class="fw-bold mb-0 text-dark">Inspections per System</h6>
+                  <span class="badge bg-light text-muted border"></span>
+                </div>
+                <div style="position: relative; height: 320px; width: 100%;">
+                  <canvas id="barChart"></canvas>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                <h6 class="fw-bold mb-3 text-dark text-center">Overall</h6>
+                <div style="position: relative; height: 260px; width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+                  <canvas id="doughnutChart"></canvas>
+                  <div id="doughnutCenterText" class="position-absolute text-center" style="top: 45%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;">
+                    <h2 class="fw-bolder mb-0 text-dark" id="healthPercentage" style="font-size: 2.2rem;">100%</h2>
+                    <small class="text-muted fw-semibold d-block mt-n1">Normal</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
   
       </div>
     </div>
@@ -1206,6 +1285,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script src="app.js"></script>
   <script src="app.js"></script>
   <div id="printArea"></div>
 </body>
