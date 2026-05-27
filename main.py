@@ -118,21 +118,21 @@ def login(request: LoginRequest):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        print(f"👉 Received Username: '{request.username}'")
-        print(f"👉 Received Password: '{request.password}'")
+        print(f"Received Username: '{request.username}'")
+        print(f"Received Password: '{request.password}'")
 
         cursor.execute("SELECT * FROM system_users WHERE username = %s", (request.username,))
         user = cursor.fetchone()
         
         if not user:
-            print("❌ Debug: User not found in database!")
+            print("Debug: User not found in database!")
             raise HTTPException(status_code=401, detail="Incorrect username or password")
             
         if not verify_password(request.password, user['hashed_password']):
-            print("❌ Debug: User found, but password hash did NOT match!")
+            print("Debug: User found, but password hash did NOT match!")
             raise HTTPException(status_code=401, detail="Incorrect username or password")
             
-        print("✅ Debug: Login successful!")
+        print("Debug: Login successful!")
             
         access_token = create_access_token(
             data={"sub": user['username']}, 

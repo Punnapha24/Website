@@ -6,21 +6,21 @@ let completedRooms = [];
 
 function getSystemIcon(systemName) {
   if (systemName.includes('Electrical')) return 'bi-lightning-charge-fill';
-  if (systemName.includes('UPS')) return 'bi-battery-charging text-primary';
-  if (systemName.includes('Temperature')) return 'bi-thermometer-half text-danger';
+  if (systemName.includes('UPS')) return 'bi-battery-charging';
+  if (systemName.includes('Temperature')) return 'bi-thermometer-half ';
   if (systemName.includes('Fire Annunciator')) return 'bi-bell-fill';
-  if (systemName.includes('Fire Suppression')) return 'bi-fire text-danger';
+  if (systemName.includes('Fire Suppression')) return 'bi-fire ';
   if (systemName.includes('Water Leak')) return 'bi-droplet-fill text-info';
-  if (systemName.includes('Access Control')) return 'bi-shield-lock-fill text-success';
+  if (systemName.includes('Access Control')) return 'bi-shield-lock-fill';
   if (systemName.includes('CCTV')) return 'bi-camera-video-fill';
   if (systemName.includes('Check Rack')) return 'bi-server text-secondary';
   if (systemName.includes('Generator')) return 'bi-gear-wide-connected';
-  if (systemName.includes('Fuel')) return 'bi-fuel-pump-fill text-warning';
-  if (systemName.includes('Breaking Glass')) return 'bi-exclamation-triangle-fill text-danger';
+  if (systemName.includes('Fuel')) return 'bi-fuel-pump-fill';
+  if (systemName.includes('Breaking Glass')) return 'bi-exclamation-triangle-fill';
   return 'bi-gear-wide-connected';
 }
 
-// --- Authentication Logic ---
+// Authentication Logic 
 function checkAuth() {
   const token = localStorage.getItem('jwt_token');
   if (!token) {
@@ -107,7 +107,7 @@ function logout() {
   checkAuth();
 }
 
-// Modify your fetch helper headers to include the token
+// Modify fetch helper headers to include the token
 function getAuthHeaders() {
   const token = localStorage.getItem('jwt_token');
   return {
@@ -126,7 +126,7 @@ document.getElementById("menu-toggle").addEventListener("click", function(e) {
 function openForm(roomName) {
   try { resetForm(); } catch (error) { console.warn("Reset error:", error); }
 
-  // ==== เช็ก Sub-category ====
+  // Sub-category
   if (roomName === 'Electrical System') {
     openSubSelection(roomName, ["1.1 MDB", "1.2 PDU", "1. RMU & TROP"]);
     return;
@@ -142,7 +142,7 @@ if (roomName === 'UPS System') {
     return;
   }
 
-  // ==== จัดการ Dynamic Forms ====
+  // Dynamic Forms 
   document.querySelectorAll('.dynamic-form-group').forEach(el => el.style.display = 'none');
 
   if (roomName.includes('Electrical System')) {
@@ -159,7 +159,7 @@ if (roomName === 'UPS System') {
     }
   }
 
-  // ==== นำทางไปยังฟอร์ม ====
+  // lead to dynamic form page
   document.getElementById('room').value = roomName;
   document.getElementById('formTitle').innerText = "Maintenance: " + roomName;
 
@@ -186,7 +186,6 @@ async function submitData() {
 
   showLoader('Saving to ' + document.getElementById('room').value + '...');
 
-  // ดึงค่า JSON จาก Dynamic Form (รองรับทั้ง Textbox และปุ่ม Radio ใหม่ทั้งหมด)
   let extraData = {};
   const visibleForms = document.querySelectorAll('.dynamic-form-group');
   visibleForms.forEach(formGroup => {
@@ -250,14 +249,14 @@ function openSubSelection(mainSystemName, subCategories) {
   const container = document.getElementById('subCategoryContainer');
   container.innerHTML = '';
 
-  // ดึงไอคอนประจำระบบมาเตรียมไว้
+  // icon
   const systemIcon = getSystemIcon(mainSystemName);
 
   subCategories.forEach(sub => {
     const fullRoomName = mainSystemName + " - " + sub;
     const isCompleted = completedRooms.includes(fullRoomName);
     
-    // ถ้าทำฟอร์มเสร็จแล้ว จะเติมคลาส icon-completed เพื่อเปลี่ยนพื้นหลังเป็นสีเขียว
+    // icon-completed (green)
     const completedClass = isCompleted ? 'icon-completed' : '';
 
     const col = document.createElement('div');
@@ -339,16 +338,13 @@ function switchView(view) {
 }
 
 // Load Table
-// ==========================================
-// 🌟 ระบบประวัติและตัวกรองอัจฉริยะ
-// ==========================================
 
-// 1. ฟังก์ชันสร้างตัวเลือกห้องใน Dropdown อัตโนมัติ
+// dropdown filter
 function populateFilterDropdown() {
   const filterSelect = document.getElementById('historyFilter');
   const currentValue = filterSelect.value;
   
-  // กวาดชื่อห้อง/Sub-category ทั้งหมดที่มีในประวัติ (ไม่เอาซ้ำ)
+  // sub categories
   const uniqueRooms = [...new Set(currentRecords.map(r => r.room))].filter(Boolean).sort();
   
   filterSelect.innerHTML = '<option value="all">All Systems</option>';
@@ -362,19 +358,18 @@ function populateFilterDropdown() {
   if (uniqueRooms.includes(currentValue)) filterSelect.value = currentValue;
 }
 
-// 2. ฟังก์ชันกรองตารางเมื่อเลือก Dropdown
 function applyHistoryFilter() {
   const selectedRoom = document.getElementById('historyFilter').value;
   if (selectedRoom === 'all') {
     renderTable(currentRecords);
   } else {
-    // โชว์เฉพาะห้องที่เลือก
+    
     const filteredData = currentRecords.filter(r => r.room === selectedRoom);
     renderTable(filteredData);
   }
 }
 
-// 3. อัปเดตฟังก์ชันโหลดตาราง (ทับของเดิม)
+// load data from server to table
 async function loadTableData() {
   showLoader('Loading history...');
   try {
@@ -389,17 +384,17 @@ async function loadTableData() {
   } catch (error) { hideLoader(); Swal.fire({ icon: 'error', title: 'Network Error', text: 'Cannot connect to Server.' }); }
 }
 
-// 4. ฟังก์ชันปุ่มลัดดูประวัติจากในหน้า Form
+// history view with filter
 function viewRoomHistory() {
   const currentRoom = document.getElementById('room').value; // จำชื่อห้องปัจจุบันไว้
   switchView('table'); // สลับไปหน้าตาราง
   
-  // รอให้ดึงข้อมูลจาก Database เสร็จ แล้วค่อยตั้งค่า Filter
+  // wait for table to load and filter to populate, then set filter to current room
   setTimeout(() => {
     const filterSelect = document.getElementById('historyFilter');
     if ([...filterSelect.options].some(opt => opt.value === currentRoom)) {
       filterSelect.value = currentRoom;
-      applyHistoryFilter(); // สั่งกรองตารางให้ทันที
+      applyHistoryFilter(); // filter to current room's history
     } else {
       filterSelect.value = 'all';
       applyHistoryFilter();
@@ -443,7 +438,7 @@ function editRecord(id) {
   try { let d = new Date(record.date); document.getElementById('date').value = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : record.date; } catch(e) {}
   try { let t = new Date('1970-01-01T' + record.time); document.getElementById('time').value = !isNaN(t.getTime()) ? `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}` : record.time; } catch(e) {}
 
-  // นำข้อมูลกลับมาติ๊กปุ่มเดิมอัตโนมัติ
+  
   if(record.extra_data) {
     for (const [key, value] of Object.entries(record.extra_data)) {
       const targetInput = document.getElementById(key) || document.querySelector(`input[name="${key}"][value="${value}"]`);
@@ -550,44 +545,31 @@ function generatePrintReport() {
     `;
   });
 
-  html += `
-        </tbody>
-      </table>
-
-      <div class="row" style="margin-top: 50px;">
-        <div class="col-6 offset-6 text-center" style="margin-top: 60px;">
-          <p class="mb-5">..........................................................</p>
-          <p class="fw-bold">( .......................................................... )</p>
-          <p class="text-muted">Name</p>
-        </div>
-      </div>
-    </div>
-  `;
-
+  
 
   printArea.innerHTML = html;
   window.print();
 }
 
 
-// 2. ฟังก์ชันพิเศษสำหรับแปลงค่า JSON ให้เป็นตาราง Grid 2 คอลัมน์ที่อ่านง่าย
+
 function parseJsonToReportDetails(extraData) {
   if (!extraData || Object.keys(extraData).length === 0) {
-    return `<div class="text-muted fst-italic text-center">- ไม่มีบันทึกข้อมูลย่อย -</div>`;
+    return `<div class="text-muted fst-italic text-center">- No Data -</div>`;
   }
 
-  // สร้างกล่อง Grid ครอบข้อมูลทั้งหมด
+  // grid container for details
   let htmlResult = '<div class="detail-container">';
   
   for (const [key, value] of Object.entries(extraData)) {
-    // ล้างชื่อ ID ให้สวยงาม (เช่น mdb_a_l1 -> MDB A L1)
+    // clean key name 
     let cleanKey = key.replace(/_/g, ' ').toUpperCase();
     
-    // ตั้งค่าสีตัวหนังสือ
+    // color and formatting based on value
     let valStyle = '';
     let displayValue = value;
     
-    // เช็กสถานะเพื่อใส่สี
+    // check value to determine color and formatting
     if (String(value).toLowerCase() === 'trip') {
       valStyle = 'color: #dc2626; font-weight: 800;'; // แดงเข้ม
     } else if (String(value).toLowerCase() === 'on') {
@@ -595,12 +577,12 @@ function parseJsonToReportDetails(extraData) {
     } else if (String(value).toLowerCase() === 'off') {
       valStyle = 'color: #64748b;'; // เทา
     } else if (!isNaN(value) && value !== '') {
-      // ถ้าเป็นตัวเลข (เช่น ค่า Voltage, Current) ให้ใส่ลูกน้ำและทศนิยมเพื่อความสวยงาม
+      // if numeric, format with commas
       displayValue = Number(value).toLocaleString();
       valStyle = 'color: #0f172a;'; 
     }
 
-    // สร้างข้อมูลทีละบรรทัด (มีหัวข้อซ้าย - สถานะขวา)
+    // append to result with label and value
     htmlResult += `
       <div class="detail-item">
         <span class="detail-label">${cleanKey}</span>
@@ -609,7 +591,7 @@ function parseJsonToReportDetails(extraData) {
     `;
   }
   
-  htmlResult += '</div>'; // ปิดกล่อง Grid
+  htmlResult += '</div>'; // close container
   return htmlResult;
 }
 
@@ -618,7 +600,7 @@ if (checkAuth()) {
   switchView('dashboard');
 }
 
-// --- Extract Username from Token ---
+// Extract Username from Token
 function getUsernameFromToken() {
   const token = localStorage.getItem('jwt_token');
   if (!token) return 'Unknown User';
