@@ -162,6 +162,8 @@ if (roomName === 'UPS System') {
   // ==== นำทางไปยังฟอร์ม ====
   document.getElementById('room').value = roomName;
   document.getElementById('formTitle').innerText = "Maintenance: " + roomName;
+
+  document.getElementById('name').value = getUsernameFromToken();
   
   document.getElementById('dashboardView').style.display = 'none';
   document.getElementById('tableView').style.display = 'none';
@@ -176,9 +178,9 @@ if (roomName === 'UPS System') {
 async function submitData() {
   const form = document.getElementById('maintenanceForm');
   
-  if (!document.getElementById('name').value || !document.getElementById('date').value || !document.getElementById('time').value) { 
+  if (!document.getElementById('date').value || !document.getElementById('time').value) { 
     form.classList.add('was-validated'); 
-    Swal.fire({ icon: 'warning', title: 'Incomplete data', text: 'Please fill in Name, Date, and Time.' });
+    Swal.fire({ icon: 'warning', title: 'Incomplete data', text: 'Please fill in Date and Time.' });
     return; 
   }
 
@@ -437,7 +439,6 @@ function editRecord(id) {
   currentEditingId = record.id; 
   openForm(record.room || 'Unknown Room'); 
   
-  document.getElementById('name').value = record.name;
   
   try { let d = new Date(record.date); document.getElementById('date').value = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : record.date; } catch(e) {}
   try { let t = new Date('1970-01-01T' + record.time); document.getElementById('time').value = !isNaN(t.getTime()) ? `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}` : record.time; } catch(e) {}
@@ -505,7 +506,7 @@ function generatePrintReport() {
   let html = `
     <div class="p-3">
       <div class="report-header text-center">
-        <h2 class="fw-bold mb-1" style="letter-spacing: 0.05em;">DAILY MAINTENANCE SUMMARY REPORT</h2>
+        <h2 class="fw-bold mb-1" style="letter-spacing: 0.05em;">MAINTENANCE SUMMARY REPORT</h2>
         <p class="text-muted mb-0">MONTHLY REPORT</p>
       </div>
 
@@ -615,5 +616,18 @@ function parseJsonToReportDetails(extraData) {
 // Initialize App
 if (checkAuth()) {
   switchView('dashboard');
+}
+
+// --- Extract Username from Token ---
+function getUsernameFromToken() {
+  const token = localStorage.getItem('jwt_token');
+  if (!token) return 'Unknown User';
+  try {
+    // A JWT has 3 parts. The middle part (index 1) holds the data payload.
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.sub; // 'sub' is where FastAPI saves the username
+  } catch (e) {
+    return 'Unknown User';
+  }
 }
 

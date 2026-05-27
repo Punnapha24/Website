@@ -40,7 +40,7 @@ def get_db_connection():
 class MaintenanceRecord(BaseModel):
     id: Optional[int] = None 
     room: str
-    name: str
+    name: Optional[str] = None
     date: date
     time: time
     extra_data: Optional[Dict[str, Any]] = None 
@@ -149,6 +149,7 @@ def save_record(record: MaintenanceRecord, current_user: str = Depends(get_curre
     cursor = conn.cursor()
     try:
         extra_json = json.dumps(record.extra_data) if record.extra_data else None
+        inspector_name = current_user
 
         if record.id:
             cursor.execute("""

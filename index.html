@@ -247,14 +247,9 @@
                       <input type="text" class="form-control fw-bold text-dark bg-light" id="room" readonly>
                     </div>
                     <div class="col-md-8">
-                      <label class="form-label fw-bold">Inspector Name <span class="text-danger">*</span></label>
-                      <select class="form-select" id="name" required>
-                        <option value="" selected disabled>Select Name...</option>
-                        <option value="Name1">Name1</option>
-                        <option value="Name2">Name2</option>
-                        <option value="Name3">Name3</option>
-                        <option value="Name4">Name4</option>
-                      </select>
+                      <label class="form-label fw-bold">Inspector Name</label>
+                      <input type="text" class="form-control bg-light fw-bold" id="name" readonly>
+                      
                     </div>
                   </div>
 
@@ -1161,28 +1156,31 @@
         </div>
 
         <div id="tableView" style="display: none;">
-          <div class="card p-4">
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
-              <h4 class="fw-bold mb-0">Maintenance History</h4>
-              <div class="d-flex gap-2 align-items-center">
+          <div class="card p-3 p-md-4">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center mb-3 gap-3">
+              <h4 class="fw-bold mb-0">History</h4>
+              
+              <div class="d-flex flex-wrap gap-2 align-items-center w-100" style="max-width: 100%;">
                 
-                <select id="historyFilter" class="form-select form-select-sm" style="min-width: 250px;" onchange="applyHistoryFilter()">
+                <select id="historyFilter" class="form-select form-select-sm flex-grow-1 w-auto" style="min-width: 150px;" onchange="applyHistoryFilter()">
                   <option value="all">All Systems</option>
                 </select>
 
-                <button class="btn btn-corporate-outline btn-sm" onclick="loadTableData()">
-                  <i class="bi bi-arrow-clockwise"></i> Refresh
-                </button>
+                <div class="d-flex gap-2 flex-grow-1 flex-md-grow-0">
+                  <button class="btn btn-corporate-outline btn-sm flex-fill flex-md-grow-0" onclick="loadTableData()">
+                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                  </button>
 
-                <button class="btn btn-corporate-outline btn-sm fw-bold px-3" onclick="generatePrintReport()">
-                  <i class="bi bi-file-earmark-pdf-fill me-1"></i> Save as PDF
-                </button>
+                  <button class="btn btn-corporate-outline btn-sm fw-bold px-3 flex-fill flex-md-grow-0" onclick="generatePrintReport()">
+                    <i class="bi bi-file-earmark-pdf-fill me-1"></i> Save as PDF
+                  </button>
+                </div>
 
               </div>
             </div>
             
             <div class="table-responsive">
-              <table class="table table-hover align-middle">
+              <table class="table table-hover align-middle text-nowrap">
                 <thead class="table-dark text-white">
                   <tr>
                     <th>Date</th>

@@ -159,8 +159,9 @@ body {
 /* Polished Table */
 .table-responsive {
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto; /* <-- Changed from hidden to allow swiping */
   border: 1px solid var(--border-color);
+  -webkit-overflow-scrolling: touch; /* Adds smooth momentum scrolling on iPhones */
 }
 .table { margin-bottom: 0; }
 .table-dark th {
@@ -386,4 +387,12 @@ body {
   .border-end-lg {
     border-right: 1px solid var(--border-color);
   }
+}
+
+/* Forms & Inputs */
+.form-control, .form-select, .input-group-text {
+  background-color: #F8FAFC; /* <-- Changed this from var(--bg-color) */
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  color: var(--text-main);
 }
