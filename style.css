@@ -424,23 +424,32 @@ body {
 }
 
 @media print {
-  /* 1. Force Landscape and small margins */
   @page {
     size: A4 landscape;
     margin: 5mm; 
   }
   
-  /* 2. Hide everything except the print area */
+  #sidebar-wrapper, .navbar, .hide-on-print, #overlay {
+    display: none !important;
+  }
+
   body * { visibility: hidden; }
-  #printArea, #printArea * { visibility: visible; }
   
-  #printArea {
+  /* Target the new container */
+  #reportContainer, #reportContainer * { visibility: visible; }
+  
+  #reportContainer {
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 100%; 
     color: #000000;
     background: #ffffff;
+  }
+
+  /* Hides the buttons when printing */
+  .hide-on-print {
+    display: none !important;
   }
 
   #page-content-wrapper, #wrapper {
@@ -448,9 +457,9 @@ body {
     height: auto !important;
   }
 
-  /* 🌟 3. THE FIX: Clean, compact table boxes 🌟 */
-  .report-table {
-    zoom: 0.8; /* Scales down the whole table smoothly so 30+ columns fit */
+  /* Keep your table compacting rules below this */
+.report-table {
+    zoom: 0.8 !important; /* scale down the table */
     width: 100% !important;
     margin-bottom: 40px !important;
   }
@@ -458,11 +467,9 @@ body {
   .report-table th, 
   .report-table td {
     font-size: 8pt !important;
-    padding: 6px 4px !important;    /* Tight padding */
-    white-space: nowrap !important; /* Prevents text from wrapping to a new line */
+    padding: 6px 4px !important;    
+    white-space: nowrap !important; 
     vertical-align: middle !important;
-    
-    /* These specific lines kill the giant empty boxes! */
     height: auto !important; 
     writing-mode: horizontal-tb !important; 
     transform: none !important;
@@ -476,6 +483,6 @@ body {
 
   .report-header {
     border-bottom: none !important;
-
-  }
+    padding-bottom: 0 !important;
+  }  
 }

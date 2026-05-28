@@ -45,6 +45,8 @@ class MaintenanceRecord(BaseModel):
     time: time
     extra_data: Optional[Dict[str, Any]] = None 
 
+
+
 class LoginRequest(BaseModel):
     username: str
     password: str

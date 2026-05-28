@@ -1176,9 +1176,11 @@
                     <i class="bi bi-arrow-clockwise"></i> Refresh
                   </button>
 
-                  <button class="btn btn-corporate-outline btn-sm fw-bold px-3 flex-fill flex-md-grow-0" onclick="generatePrintReport()">
-                    <i class="bi bi-file-earmark-pdf-fill me-1"></i> Save as PDF
+                  <button class="btn btn-corporate-outline btn-sm fw-bold px-3 flex-fill flex-md-grow-0" onclick="generateAndShowReport()">
+                    <i class="bi bi-file-earmark-text-fill me-1"></i> View Report
                   </button>
+
+                  
                 </div>
 
               </div>
@@ -1202,6 +1204,23 @@
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+
+        <div id="reportView" style="display: none;">
+          <div class="card p-3 p-md-4 mb-4 border-0 shadow-sm" style="min-height: 80vh;">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom hide-on-print">
+              <button class="btn btn-sm btn-outline-secondary fw-bold px-3" onclick="switchView('table')">
+                <i class="bi bi-arrow-left me-1"></i> Back to History
+              </button>
+              <button class="btn btn-corporate btn-sm fw-bold px-4" onclick="window.print()">
+                <i class="bi bi-printer-fill me-1"></i> Print / Save PDF
+              </button>
+            </div>
+
+            <div id="reportContainer"></div>
+            
           </div>
         </div>
 
@@ -1285,7 +1304,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
   <script src="app.js"></script>
   <div id="printArea"></div>
 </body>

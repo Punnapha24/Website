@@ -138,20 +138,16 @@ document.getElementById("menu-toggle").addEventListener("click", function(e) {
 });
 
 function switchView(view) {
-  // 1. Hide ALL views first
-  const views = ['dashboardView', 'formView', 'tableView', 'subSelectionView', 'loginView', 'analyticsView'];
+  // Add 'reportView' to the array!
+  const views = ['dashboardView', 'formView', 'tableView', 'subSelectionView', 'loginView', 'analyticsView', 'reportView'];
   views.forEach(v => {
     const el = document.getElementById(v);
     if(el) el.style.display = 'none';
   });
 
-  // 2. Remove active highlights from sidebar
   document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
 
-  // 3. Show the requested view
-  if (view === 'login') {
-    document.getElementById('loginView').style.display = 'block';
-  } 
+  if (view === 'login') { document.getElementById('loginView').style.display = 'block'; } 
   else if (view === 'dashboard') {
     document.getElementById('dashboardView').style.display = 'block'; 
     document.getElementById('nav-dashboard').classList.add('active'); 
@@ -167,15 +163,11 @@ function switchView(view) {
     document.getElementById('nav-analytics').classList.add('active');
     loadAnalyticsData(); 
   }
-  // 👇 THESE TWO WERE MISSING! 👇
-  else if (view === 'formView') {
-    document.getElementById('formView').style.display = 'block';
-  }
-  else if (view === 'subSelectionView') {
-    document.getElementById('subSelectionView').style.display = 'block';
-  }
+  else if (view === 'formView') { document.getElementById('formView').style.display = 'block'; }
+  else if (view === 'subSelectionView') { document.getElementById('subSelectionView').style.display = 'block'; }
+  // 👇 ADD THIS LINE 👇
+  else if (view === 'reportView') { document.getElementById('reportView').style.display = 'block'; }
 
-  // 4. Hide sidebar on mobile after clicking
   if (window.innerWidth < 768) { document.getElementById("wrapper").classList.remove("toggled"); }
 }
 
@@ -281,10 +273,10 @@ async function submitData() {
     }
   });
 
-  const payload = {
+const payload = {
     id: currentEditingId, 
     room: document.getElementById('room').value,
-    name: "", // Handled automatically by backend now
+    name: document.getElementById('name').value, 
     date: document.getElementById('date').value,
     time: document.getElementById('time').value,
     extra_data: extraData
@@ -414,13 +406,14 @@ function editRecord(id) {
   const record = currentRecords.find(r => r.id === searchId || String(r.id) === String(id));
   if (!record) return;
 
-  // 1. Open the form first (this resets the fields)
+  // 1. Open the form first (this resets the form)
   openForm(record.room || 'Unknown Room'); 
-
-  // 2. NOW set the ID (so it doesn't get wiped by resetForm)
+  
+  // 2. NOW restore the ID and the Saved Name!
   currentEditingId = record.id; 
+  document.getElementById('name').value = record.name || ''; 
 
-  // 3. Populate the fields
+  // 3. Restore dates and times
   try { let d = new Date(record.date); document.getElementById('date').value = !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : record.date; } catch(e) {}
   try { let t = new Date('1970-01-01T' + record.time); document.getElementById('time').value = !isNaN(t.getTime()) ? `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}` : record.time; } catch(e) {}
 
@@ -436,7 +429,6 @@ function editRecord(id) {
       }
     }
   }
-  
   document.getElementById('formTitle').innerText = "Edit Record: " + (record.room || '');
 }
 // ==========================================
@@ -601,14 +593,12 @@ function renderAnalytics() {
 }
 
 // ==========================================
-// 🖨️ PDF PRINTING
-// ==========================================
-// ==========================================
 // 🖨️ PDF PRINTING (DYNAMIC COLUMNS)
 // ==========================================
-function generatePrintReport() {
+
+function generateAndShowReport() {
   const filterValue = document.getElementById('historyFilter').value;
-  const printArea = document.getElementById('printArea');
+  const reportContainer = document.getElementById('reportContainer');
   
   let reportData = currentRecords;
   if (filterValue !== 'all') {
@@ -624,23 +614,21 @@ function generatePrintReport() {
   const filterText = filterValue === 'all' ? 'All Systems Summary' : filterValue;
 
   let html = `
-    <div class="p-3 pt-0"> 
-      
+    <div class="pt-3 px-0"> 
       <div class="report-header text-center mt-0 pt-0" style="padding-bottom: 10px; margin-bottom: 20px;">
         <h2 class="fw-bold mb-1 mt-0 pt-0" style="letter-spacing: 0.05em;">MONTHLY MAINTENANCE REPORT</h2>
         <p class="text-muted mb-0 text-uppercase">${filterText}</p>
       </div>
-      
+
       <div class="row mb-4 fs-6">
         <div class="col-6">
           </div>
         <div class="col-6 text-end">
-          <strong>Print Date:</strong> ${now.toLocaleDateString('en-GB')}
+          <strong>Date:</strong> ${now.toLocaleDateString('en-GB')}
         </div>
       </div>
   `;
 
-  // 1. Group records by System Room (so "All Systems" prints neatly)
   const groupedRecords = {};
   reportData.forEach(r => {
     const room = r.room || 'Unknown System';
@@ -648,21 +636,15 @@ function generatePrintReport() {
     groupedRecords[room].push(r);
   });
 
-  // 2. Loop through each System and generate its own specific Table
   for (const [roomName, records] of Object.entries(groupedRecords)) {
-    
     html += `<h5 class="fw-bold mt-5 mb-2 text-dark" style="border-bottom: 2px solid #0F172A; padding-bottom: 5px;">${roomName}</h5>`;
     
-    // Find all unique fields (columns) for this specific system
     let dynamicColumns = new Set();
     records.forEach(r => {
-      if (r.extra_data) {
-        Object.keys(r.extra_data).forEach(key => dynamicColumns.add(key));
-      }
+      if (r.extra_data) Object.keys(r.extra_data).forEach(key => dynamicColumns.add(key));
     });
     const columnsArray = Array.from(dynamicColumns);
 
-    // Build the Table Headers
     html += `
       <table class="table table-bordered report-table align-middle text-center" style="font-size: 8.5pt;">
         <thead class="table-light">
@@ -676,47 +658,33 @@ function generatePrintReport() {
       html += `<th>${cleanCol}</th>`;
     });
 
-    html += `   <th>Checked By</th>
-          </tr>
-        </thead>
-        <tbody>`;
+    html += `   <th>Inspector</th></tr></thead><tbody>`;
 
-    // Build the Table Rows
     records.forEach(r => {
-      html += `
-        <tr>
-          <td>${formatDateDisplay(r.date)}</td>
-          <td>${r.time}</td>`;
+      html += `<tr><td>${formatDateDisplay(r.date)}</td><td>${r.time}</td>`;
       
-      // Fill in the dynamic columns
       columnsArray.forEach(col => {
         let val = (r.extra_data && r.extra_data[col] !== undefined && r.extra_data[col] !== "") ? r.extra_data[col] : '-';
-        
         let valStyle = '';
         const lowerVal = String(val).toLowerCase();
         
-        if (!isNaN(val) && val !== '-') {
-          val = Number(val).toLocaleString(); // Add commas to numbers
-        }
+        if (!isNaN(val) && val !== '-') val = Number(val).toLocaleString(); 
 
         html += `<td style="${valStyle}">${val}</td>`;
       });
 
-      html += `<td class="fw-bold">${r.name || '-'}</td>
-        </tr>`;
+      html += `<td class="fw-bold">${r.name || '-'}</td></tr>`;
     });
 
     html += `</tbody></table>`;
-  }
+  } 
 
+  html += `</div>`;
 
-
-  printArea.innerHTML = html;
-  
-  // Give the DOM a tiny fraction of a second to render the tables before triggering print
-  setTimeout(() => { window.print(); }, 100);
+  // 🌟 THIS IS THE MAGIC PART THAT SHOWS THE SCREEN! 🌟
+  reportContainer.innerHTML = html;
+  switchView('reportView');
 }
-
 // NOTE: You can safely DELETE the old `parseJsonToReportDetails()` function 
 // because we don't need it anymore!
 
