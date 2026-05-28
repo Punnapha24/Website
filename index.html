@@ -53,30 +53,66 @@
       </nav>
 
       <div class="container-fluid p-2 p-md-4">
-        <div id="loginView" class="container" style="display: block; max-width: 400px; margin-top: 10vh;">
+        <div id="loginView" class="container" style="display: block; max-width: 450px; margin-top: 10vh;">
           <div class="card p-4 shadow-sm border-0 rounded-4">
-            <div class="text-center mb-4">
-              <i class="bi bi-shield-lock text-primary" style="font-size: 3rem;"></i>
-              <h3 class="fw-bold mt-2">Sign In</h3>
-              <p class="text-muted small">Daily Maintenance Dashboard</p>
-            </div>
             
-            <form id="loginForm" onsubmit="handleLogin(event)">
-              <div class="mb-3">
-                <label class="form-label fw-bold">Username</label>
-                <input type="text" class="form-control" id="loginUsername" required>
-              </div>
-              <div class="mb-4">
-                <label class="form-label fw-bold">Password</label>
-                <input type="password" class="form-control" id="loginPassword" required>
+            <div id="loginSection">
+              <div class="text-center mb-4">
+                <i class="bi bi-shield-lock text-primary" style="font-size: 3rem;"></i>
+                <h3 class="fw-bold mt-2">Sign In</h3>
+                <p class="text-muted small">Daily Maintenance</p>
               </div>
               
-              <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-corporate py-2 fw-bold">Login</button>
-                <button type="button" class="btn btn-outline-secondary py-2 fw-bold" onclick="handleRegister(event)">Create Account</button>
+              <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Username</label>
+                  <input type="text" class="form-control" id="loginUsername" placeholder="Firstname Lastname" required>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Password</label>
+                  <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-corporate py-2 fw-bold">Login</button>
+                  <button type="button" class="btn btn-outline-secondary py-2 fw-bold" onclick="toggleAuthForm('register')">Create Account</button>
+                </div>
+              </form>
+            </div>
+
+            <div id="registerSection" style="display: none;">
+              <div class="text-center mb-4">
+                <i class="bi bi-person-badge text-success" style="font-size: 3rem;"></i>
+                <h3 class="fw-bold mt-2">Register</h3>
+                <p class="text-muted small">Create your employee account</p>
               </div>
-            </form>
-            
+              
+              <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <label class="form-label fw-bold">First Name</label>
+                    <input type="text" class="form-control" id="regFirstName" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label fw-bold">Last Name</label>
+                    <input type="text" class="form-control" id="regLastName" required>
+                  </div>
+                </div>
+                
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Set Password</label>
+                  <input type="password" class="form-control" id="regPassword" required>
+                </div>
+                
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-success py-2 fw-bold">Complete Registration</button>
+                  <button type="button" class="btn btn-link text-muted" style="text-decoration: none;" onclick="toggleAuthForm('login')">
+                    <i class="bi bi-arrow-left"></i> Back to Login
+                  </button>
+                </div>
+              </form>
+            </div>
+
           </div>
         </div>
   
@@ -238,6 +274,10 @@
               
               <button class="btn btn-sm btn-corporate-outline mb-3" onclick="switchView('dashboard')">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
+              </button>
+
+              <button class="btn btn-sm btn-success fw-bold mb-3 shadow-sm" onclick="selectAllNormal()">
+                  <i class="bi bi-check2-all me-1"></i> Auto-Fill
               </button>
               
               <div class="card p-4">
@@ -1141,6 +1181,398 @@
                       </div>
                     </div>  
                   </div>
+
+                  <div id="form-temp-sr1" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">3.1 Service Room 1</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 1-1B)</label><input type="text" name="sr1_t_11b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 1-1B)</label><input type="text" name="sr1_h_11b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 1-2B)</label><input type="text" name="sr1_t_12b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 1-2B)</label><input type="text" name="sr1_h_12b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 1-3B)</label><input type="text" name="sr1_t_13b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 1-3B)</label><input type="text" name="sr1_h_13b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 1-4B)</label><input type="text" name="sr1_t_14b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 1-4B)</label><input type="text" name="sr1_h_14b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 1-5B)</label><input type="text" name="sr1_t_15b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 1-5B)</label><input type="text" name="sr1_h_15b" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-temp-sr2" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">3.2 Service Room 2</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 2-1B)</label><input type="text" name="sr2_t_21b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 2-1B)</label><input type="text" name="sr2_h_21b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 2-2B)</label><input type="text" name="sr2_t_22b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 2-2B)</label><input type="text" name="sr2_h_22b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 2-3B)</label><input type="text" name="sr2_t_23b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 2-3B)</label><input type="text" name="sr2_h_23b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 2-4B)</label><input type="text" name="sr2_t_24b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 2-4B)</label><input type="text" name="sr2_h_24b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 2-5B)</label><input type="text" name="sr2_t_25b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 2-5B)</label><input type="text" name="sr2_h_25b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 2-6B)</label><input type="text" name="sr2_t_26b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 2-6B)</label><input type="text" name="sr2_h_26b" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-temp-sr3" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">3.3 Service Room 3</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 3-1B)</label><input type="text" name="sr3_t_31b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 3-1B)</label><input type="text" name="sr3_h_31b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 3-2B)</label><input type="text" name="sr3_t_32b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 3-2B)</label><input type="text" name="sr3_h_32b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 3-3B)</label><input type="text" name="sr3_t_33b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 3-3B)</label><input type="text" name="sr3_h_33b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 3-4B)</label><input type="text" name="sr3_t_34b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 3-4B)</label><input type="text" name="sr3_h_34b" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-temp-sr4" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">3.4 Service Room 4</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 4-1B)</label><input type="text" name="sr4_t_41b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 4-1B)</label><input type="text" name="sr4_h_41b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 4-2B)</label><input type="text" name="sr4_t_42b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 4-2B)</label><input type="text" name="sr4_h_42b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 4-3B)</label><input type="text" name="sr4_t_43b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 4-3B)</label><input type="text" name="sr4_h_43b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 4-4B)</label><input type="text" name="sr4_t_44b" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 4-4B)</label><input type="text" name="sr4_h_44b" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-temp-ups" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">3. UPS & Battery Room</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 5-1)</label><input type="text" name="ups_t_51" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 5-1)</label><input type="text" name="ups_h_51" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 5-2)</label><input type="text" name="ups_t_52" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 5-2)</label><input type="text" name="ups_h_52" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Temp 22-26% (CRAC 5-3)</label><input type="text" name="ups_t_53" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Humidity 30-60% (CRAC 5-3)</label><input type="text" name="ups_h_53" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-fire-annunciator" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Fire Annunciator Panel (NOC Room)</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6"><label class="form-label fw-bold">Panel Status</label>
+                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="fire_ann_status" id="fa_n" value="Normal"><label class="btn btn-outline-success" for="fa_n">Normal</label><input type="radio" class="btn-check" name="fire_ann_status" id="fa_f" value="Failed"><label class="btn btn-outline-danger" for="fa_f">Failed</label></div>
+                      </div>
+                      <div class="col-12"><label class="form-label fw-bold">Remark</label><input type="text" name="fire_ann_remark" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-water-leak" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Water Leak Detection System</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6"><label class="form-label fw-bold">Status</label>
+                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="water_leak_status" id="wl_n" value="Normal"><label class="btn btn-outline-success" for="wl_n">Normal</label><input type="radio" class="btn-check" name="water_leak_status" id="wl_f" value="Failed"><label class="btn btn-outline-danger" for="wl_f">Failed</label></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="form-cctv" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">CCTV</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-12 col-md-6"><label class="form-label fw-bold">Status</label>
+                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="cctv_status" id="cctv_n" value="Normal"><label class="btn btn-outline-success" for="cctv_n">Normal</label><input type="radio" class="btn-check" name="cctv_status" id="cctv_f" value="Failed"><label class="btn btn-outline-danger" for="cctv_f">Failed</label></div>
+                      </div>
+                      <div class="col-12"><label class="form-label fw-bold">Remark</label><input type="text" name="cctv_remark" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-fire-suppression" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Fire Suppression (NOC Room)</h5>
+                    <div class="row g-2 mb-4">
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold">FACP</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_facp" id="fs_facp_n" value="Normal"><label class="btn btn-outline-success" for="fs_facp_n">Normal</label><input type="radio" class="btn-check" name="fs_facp" id="fs_facp_f" value="Failed"><label class="btn btn-outline-danger" for="fs_facp_f">Failed</label></div></div>
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold">IGCP-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_igcp1" id="fs_igcp1_n" value="Normal"><label class="btn btn-outline-success" for="fs_igcp1_n">Normal</label><input type="radio" class="btn-check" name="fs_igcp1" id="fs_igcp1_f" value="Failed"><label class="btn btn-outline-danger" for="fs_igcp1_f">Failed</label></div></div>
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold">IGCP-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_igcp2" id="fs_igcp2_n" value="Normal"><label class="btn btn-outline-success" for="fs_igcp2_n">Normal</label><input type="radio" class="btn-check" name="fs_igcp2" id="fs_igcp2_f" value="Failed"><label class="btn btn-outline-danger" for="fs_igcp2_f">Failed</label></div></div>
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold">IGCP-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_igcp3" id="fs_igcp3_n" value="Normal"><label class="btn btn-outline-success" for="fs_igcp3_n">Normal</label><input type="radio" class="btn-check" name="fs_igcp3" id="fs_igcp3_f" value="Failed"><label class="btn btn-outline-danger" for="fs_igcp3_f">Failed</label></div></div>
+                    </div>
+
+                    <h6 class="fw-bold mt-4">Pressure of Gas Cylinder</h6>
+                    <div class="row g-2 mb-4">
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold text-muted small">NITRO-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_nitro1" id="fs_n1_n" value="Normal"><label class="btn btn-outline-success" for="fs_n1_n">Normal</label><input type="radio" class="btn-check" name="fs_nitro1" id="fs_n1_f" value="Failed"><label class="btn btn-outline-danger" for="fs_n1_f">Failed</label></div></div>
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold text-muted small">NITRO-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_nitro2" id="fs_n2_n" value="Normal"><label class="btn btn-outline-success" for="fs_n2_n">Normal</label><input type="radio" class="btn-check" name="fs_nitro2" id="fs_n2_f" value="Failed"><label class="btn btn-outline-danger" for="fs_n2_f">Failed</label></div></div>
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold text-muted small">Service-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_srv3" id="fs_s3_n" value="Normal"><label class="btn btn-outline-success" for="fs_s3_n">Normal</label><input type="radio" class="btn-check" name="fs_srv3" id="fs_s3_f" value="Failed"><label class="btn btn-outline-danger" for="fs_s3_f">Failed</label></div></div>
+                      <div class="col-12 col-lg-3"><label class="form-label fw-bold text-muted small">Service-4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fs_srv4" id="fs_s4_n" value="Normal"><label class="btn btn-outline-success" for="fs_s4_n">Normal</label><input type="radio" class="btn-check" name="fs_srv4" id="fs_s4_f" value="Failed"><label class="btn btn-outline-danger" for="fs_s4_f">Failed</label></div></div>
+                    </div>
+
+                    <h6 class="fw-bold mt-4">Non-CFC Fire Extinguisher</h6>
+                    <div class="row g-2 mb-4"> 
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Corridor-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_corr1" id="fe_c1_n" value="Normal"><label class="btn btn-outline-success" for="fe_c1_n">Normal</label><input type="radio" class="btn-check" name="fe_corr1" id="fe_c1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_c1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Corridor-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_corr2" id="fe_c2_n" value="Normal"><label class="btn btn-outline-success" for="fe_c2_n">Normal</label><input type="radio" class="btn-check" name="fe_corr2" id="fe_c2_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_c2_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Corridor-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_corr3" id="fe_c3_n" value="Normal"><label class="btn btn-outline-success" for="fe_c3_n">Normal</label><input type="radio" class="btn-check" name="fe_corr3" id="fe_c3_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_c3_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">NOC-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_noc1" id="fe_n1_n" value="Normal"><label class="btn btn-outline-success" for="fe_n1_n">Normal</label><input type="radio" class="btn-check" name="fe_noc1" id="fe_n1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_n1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">DATA1-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_d11" id="fe_d11_n" value="Normal"><label class="btn btn-outline-success" for="fe_d11_n">Normal</label><input type="radio" class="btn-check" name="fe_d11" id="fe_d11_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_d11_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">DATA1-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_d12" id="fe_d12_n" value="Normal"><label class="btn btn-outline-success" for="fe_d12_n">Normal</label><input type="radio" class="btn-check" name="fe_d12" id="fe_d12_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_d12_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">DATA2-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_d21" id="fe_d21_n" value="Normal"><label class="btn btn-outline-success" for="fe_d21_n">Normal</label><input type="radio" class="btn-check" name="fe_d21" id="fe_d21_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_d21_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">DATA2-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_d22" id="fe_d22_n" value="Normal"><label class="btn btn-outline-success" for="fe_d22_n">Normal</label><input type="radio" class="btn-check" name="fe_d22" id="fe_d22_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_d22_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">DATA3-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_d31" id="fe_d31_n" value="Normal"><label class="btn btn-outline-success" for="fe_d31_n">Normal</label><input type="radio" class="btn-check" name="fe_d31" id="fe_d31_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_d31_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">DATA4-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_d41" id="fe_d41_n" value="Normal"><label class="btn btn-outline-success" for="fe_d41_n">Normal</label><input type="radio" class="btn-check" name="fe_d41" id="fe_d41_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_d41_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Lobby-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_lob1" id="fe_l1_n" value="Normal"><label class="btn btn-outline-success" for="fe_l1_n">Normal</label><input type="radio" class="btn-check" name="fe_lob1" id="fe_l1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_l1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">UPS & Battery-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_ups1" id="fe_u1_n" value="Normal"><label class="btn btn-outline-success" for="fe_u1_n">Normal</label><input type="radio" class="btn-check" name="fe_ups1" id="fe_u1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_u1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">UPS & Battery-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_ups2" id="fe_u2_n" value="Normal"><label class="btn btn-outline-success" for="fe_u2_n">Normal</label><input type="radio" class="btn-check" name="fe_ups2" id="fe_u2_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_u2_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">MDB-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_mdb1" id="fe_m1_n" value="Normal"><label class="btn btn-outline-success" for="fe_m1_n">Normal</label><input type="radio" class="btn-check" name="fe_mdb1" id="fe_m1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_m1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">TR & ATS-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_tr1" id="fe_tr1_n" value="Normal"><label class="btn btn-outline-success" for="fe_tr1_n">Normal</label><input type="radio" class="btn-check" name="fe_tr1" id="fe_tr1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_tr1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Generator-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_gen1" id="fe_g1_n" value="Normal"><label class="btn btn-outline-success" for="fe_g1_n">Normal</label><input type="radio" class="btn-check" name="fe_gen1" id="fe_g1_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_g1_a">Abnormal</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Fuel</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fe_fuel" id="fe_f_n" value="Normal"><label class="btn btn-outline-success" for="fe_f_n">Normal</label><input type="radio" class="btn-check" name="fe_fuel" id="fe_f_a" value="AbNormal"><label class="btn btn-outline-danger" for="fe_f_a">Abnormal</label></div></div>
+                    </div>
+                  </div>
+
+                  <div id="form-access-control" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Access Control System</h5>
+                    <div class="row g-2 mb-3">
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Lobby</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_lobby" id="ac_l_n" value="Normal"><label class="btn btn-outline-success" for="ac_l_n">Normal</label><input type="radio" class="btn-check" name="ac_lobby" id="ac_l_f" value="Failed"><label class="btn btn-outline-danger" for="ac_l_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Security</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_sec" id="ac_sec_n" value="Normal"><label class="btn btn-outline-success" for="ac_sec_n">Normal</label><input type="radio" class="btn-check" name="ac_sec" id="ac_sec_f" value="Failed"><label class="btn btn-outline-danger" for="ac_sec_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">MDB</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_mdb" id="ac_mdb_n" value="Normal"><label class="btn btn-outline-success" for="ac_mdb_n">Normal</label><input type="radio" class="btn-check" name="ac_mdb" id="ac_mdb_f" value="Failed"><label class="btn btn-outline-danger" for="ac_mdb_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">UPS & Battery</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_ups" id="ac_ups_n" value="Normal"><label class="btn btn-outline-success" for="ac_ups_n">Normal</label><input type="radio" class="btn-check" name="ac_ups" id="ac_ups_f" value="Failed"><label class="btn btn-outline-danger" for="ac_ups_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Staging</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_staging" id="ac_staging_n" value="Normal"><label class="btn btn-outline-success" for="ac_staging_n">Normal</label><input type="radio" class="btn-check" name="ac_staging" id="ac_staging_f" value="Failed"><label class="btn btn-outline-danger" for="ac_staging_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Service-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_service1" id="ac_service1_n" value="Normal"><label class="btn btn-outline-success" for="ac_service1_n">Normal</label><input type="radio" class="btn-check" name="ac_service1" id="ac_service1_f" value="Failed"><label class="btn btn-outline-danger" for="ac_service1_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Service-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_service2" id="ac_service2_n" value="Normal"><label class="btn btn-outline-success" for="ac_service2_n">Normal</label><input type="radio" class="btn-check" name="ac_service2" id="ac_service2_f" value="Failed"><label class="btn btn-outline-danger" for="ac_service2_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Service-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_service3" id="ac_service3_n" value="Normal"><label class="btn btn-outline-success" for="ac_service3_n">Normal</label><input type="radio" class="btn-check" name="ac_service3" id="ac_service3_f" value="Failed"><label class="btn btn-outline-danger" for="ac_service3_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Service-4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_service4" id="ac_service4_n" value="Normal"><label class="btn btn-outline-success" for="ac_service4_n">Normal</label><input type="radio" class="btn-check" name="ac_service4" id="ac_service4_f" value="Failed"><label class="btn btn-outline-danger" for="ac_service4_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Data Center-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_datacenter1" id="ac_datacenter1_n" value="Normal"><label class="btn btn-outline-success" for="ac_datacenter1_n">Normal</label><input type="radio" class="btn-check" name="ac_datacenter1" id="ac_datacenter1_f" value="Failed"><label class="btn btn-outline-danger" for="ac_datacenter1_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Data Center-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_datacenter2" id="ac_datacenter2_n" value="Normal"><label class="btn btn-outline-success" for="ac_datacenter2_n">Normal</label><input type="radio" class="btn-check" name="ac_datacenter2" id="ac_datacenter2_f" value="Failed"><label class="btn btn-outline-danger" for="ac_datacenter2_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Data Center-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_datacenter3" id="ac_datacenter3_n" value="Normal"><label class="btn btn-outline-success" for="ac_datacenter3_n">Normal</label><input type="radio" class="btn-check" name="ac_datacenter3" id="ac_datacenter3_f" value="Failed"><label class="btn btn-outline-danger" for="ac_datacenter3_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Data Center-4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_datacenter4" id="ac_datacenter4_n" value="Normal"><label class="btn btn-outline-success" for="ac_datacenter4_n">Normal</label><input type="radio" class="btn-check" name="ac_datacenter4" id="ac_datacenter4_f" value="Failed"><label class="btn btn-outline-danger" for="ac_datacenter4_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">NOC</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_noc" id="ac_noc_n" value="Normal"><label class="btn btn-outline-success" for="ac_noc_n">Normal</label><input type="radio" class="btn-check" name="ac_noc" id="ac_noc_f" value="Failed"><label class="btn btn-outline-danger" for="ac_noc_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">MMR</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_mmr" id="ac_mmr_n" value="Normal"><label class="btn btn-outline-success" for="ac_mmr_n">Normal</label><input type="radio" class="btn-check" name="ac_mmr" id="ac_mmr_f" value="Failed"><label class="btn btn-outline-danger" for="ac_mmr_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">ODF</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_odf" id="ac_odf_n" value="Normal"><label class="btn btn-outline-success" for="ac_odf_n">Normal</label><input type="radio" class="btn-check" name="ac_odf" id="ac_odf_f" value="Failed"><label class="btn btn-outline-danger" for="ac_odf_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Nitro-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_nitro1" id="ac_nitro1_n" value="Normal"><label class="btn btn-outline-success" for="ac_nitro1_n">Normal</label><input type="radio" class="btn-check" name="ac_nitro1" id="ac_nitro1_f" value="Failed"><label class="btn btn-outline-danger" for="ac_nitro1_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Nitro-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_nitro2" id="ac_nitro2_n" value="Normal"><label class="btn btn-outline-success" for="ac_nitro2_n">Normal</label><input type="radio" class="btn-check" name="ac_nitro2" id="ac_nitro2_f" value="Failed"><label class="btn btn-outline-danger" for="ac_nitro2_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Emergency-Red</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_emergency_red" id="ac_emergency_red_n" value="Normal"><label class="btn btn-outline-success" for="ac_emergency_red_n">Normal</label><input type="radio" class="btn-check" name="ac_emergency_red" id="ac_emergency_red_f" value="Failed"><label class="btn btn-outline-danger" for="ac_emergency_red_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">TR</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_tr" id="ac_tr_n" value="Normal"><label class="btn btn-outline-success" for="ac_tr_n">Normal</label><input type="radio" class="btn-check" name="ac_tr" id="ac_tr_f" value="Failed"><label class="btn btn-outline-danger" for="ac_tr_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Synchronize</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_synchronize" id="ac_synchronize_n" value="Normal"><label class="btn btn-outline-success" for="ac_synchronize_n">Normal</label><input type="radio" class="btn-check" name="ac_synchronize" id="ac_synchronize_f" value="Failed"><label class="btn btn-outline-danger" for="ac_synchronize_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Storage</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_storage" id="ac_storage_n" value="Normal"><label class="btn btn-outline-success" for="ac_storage_n">Normal</label><input type="radio" class="btn-check" name="ac_storage" id="ac_storage_f" value="Failed"><label class="btn btn-outline-danger" for="ac_storage_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Building Door</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_building_door" id="ac_building_door_n" value="Normal"><label class="btn btn-outline-success" for="ac_building_door_n">Normal</label><input type="radio" class="btn-check" name="ac_building_door" id="ac_building_door_f" value="Failed"><label class="btn btn-outline-danger" for="ac_building_door_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Fuel</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_fuel" id="ac_fuel_n" value="Normal"><label class="btn btn-outline-success" for="ac_fuel_n">Normal</label><input type="radio" class="btn-check" name="ac_fuel" id="ac_fuel_f" value="Failed"><label class="btn btn-outline-danger" for="ac_fuel_f">Failed</label></div></div>
+                      <div class="col-12 col-md-4 col-lg-3"><label class="form-label fw-bold text-muted small">Corridor</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="ac_corridor" id="ac_corridor_n" value="Normal"><label class="btn btn-outline-success" for="ac_corridor_n">Normal</label><input type="radio" class="btn-check" name="ac_corridor" id="ac_corridor_f" value="Failed"><label class="btn btn-outline-danger" for="ac_corridor_f">Failed</label></div></div>
+                      <div class="col-12 mt-3"><label class="form-label fw-bold">Remark</label><input type="text" name="ac_remark" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  
+
+                  <div id="form-check-rack" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Check Rack Customer</h5>
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6">
+                        <label class="form-label fw-bold">Work Shift</label>
+                        <select name="cr_shift" class="form-select">
+                          <option value="01:00-03:00 AM">01:00-03:00 AM</option>
+                          <option value="09:00-12:00 AM">09:00-12:00 AM</option>
+                          <option value="05:00-08:00 PM">05:00-08:00 PM</option>
+                        </select>
+                      </div>
+                    </div>
+                    <h6 class="fw-bold mt-4">Data Room 1</h6>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r1" id="cr_d1_r1_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r1_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r1" id="cr_d1_r1_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r1_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r2" id="cr_d1_r2_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r2_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r2" id="cr_d1_r2_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r2_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r3" id="cr_d1_r3_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r3_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r3" id="cr_d1_r3_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r3_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r4" id="cr_d1_r4_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r4_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r4" id="cr_d1_r4_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r4_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 5</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r5" id="cr_d1_r5_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r5_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r5" id="cr_d1_r5_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r5_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 6</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r6" id="cr_d1_r6_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r6_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r6" id="cr_d1_r6_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r6_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 7</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr1_r7" id="cr_d1_r7_n" value="Normal"><label class="btn btn-outline-success" for="cr_d1_r7_n">Normal</label><input type="radio" class="btn-check" name="cr_dr1_r7" id="cr_d1_r7_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d1_r7_a">AbNormal</label></div></div>
+                      
+                      <div class="col-12"><label class="form-label small fw-bold">Remark Data Room 1</label><input type="text" name="cr_dr1_remark" class="form-control"></div>
+                    </div>
+
+                    <h6 class="fw-bold mt-4 border-top pt-3">Data Room 2</h6>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r1" id="cr_d2_r1_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r1_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r1" id="cr_d2_r1_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r1_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r2" id="cr_d2_r2_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r2_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r2" id="cr_d2_r2_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r2_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r3" id="cr_d2_r3_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r3_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r3" id="cr_d2_r3_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r3_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r4" id="cr_d2_r4_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r4_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r4" id="cr_d2_r4_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r4_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 5</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r5" id="cr_d2_r5_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r5_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r5" id="cr_d2_r5_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r5_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 6</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r6" id="cr_d2_r6_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r6_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r6" id="cr_d2_r6_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r6_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 7</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r7" id="cr_d2_r7_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r7_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r7" id="cr_d2_r7_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r7_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 8</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr2_r8" id="cr_d2_r8_n" value="Normal"><label class="btn btn-outline-success" for="cr_d2_r8_n">Normal</label><input type="radio" class="btn-check" name="cr_dr2_r8" id="cr_d2_r8_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d2_r8_a">AbNormal</label></div></div>
+                      
+                      <div class="col-12"><label class="form-label small fw-bold">Remark Data Room 2</label><input type="text" name="cr_dr2_remark" class="form-control"></div>
+                    </div>
+
+                    <h6 class="fw-bold mt-4 border-top pt-3">Data Room 3</h6>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr3_r1" id="cr_d3_r1_n" value="Normal"><label class="btn btn-outline-success" for="cr_d3_r1_n">Normal</label><input type="radio" class="btn-check" name="cr_dr3_r1" id="cr_d3_r1_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d3_r1_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr3_r2" id="cr_d3_r2_n" value="Normal"><label class="btn btn-outline-success" for="cr_d3_r2_n">Normal</label><input type="radio" class="btn-check" name="cr_dr3_r2" id="cr_d3_r2_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d3_r2_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr3_r3" id="cr_d3_r3_n" value="Normal"><label class="btn btn-outline-success" for="cr_d3_r3_n">Normal</label><input type="radio" class="btn-check" name="cr_dr3_r3" id="cr_d3_r3_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d3_r3_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr3_r4" id="cr_d3_r4_n" value="Normal"><label class="btn btn-outline-success" for="cr_d3_r4_n">Normal</label><input type="radio" class="btn-check" name="cr_dr3_r4" id="cr_d3_r4_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d3_r4_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 5</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr3_r5" id="cr_d3_r5_n" value="Normal"><label class="btn btn-outline-success" for="cr_d3_r5_n">Normal</label><input type="radio" class="btn-check" name="cr_dr3_r5" id="cr_d3_r5_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d3_r5_a">AbNormal</label></div></div>
+                      
+                      <div class="col-12"><label class="form-label small fw-bold">Remark Data Room 3</label><input type="text" name="cr_dr3_remark" class="form-control"></div>
+                    </div>
+
+                    <h6 class="fw-bold mt-4 border-top pt-3">Data Room 4</h6>
+                    <div class="row g-3 mb-3">
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr4_r1" id="cr_d4_r1_n" value="Normal"><label class="btn btn-outline-success" for="cr_d4_r1_n">Normal</label><input type="radio" class="btn-check" name="cr_dr4_r1" id="cr_d4_r1_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d4_r1_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr4_r2" id="cr_d4_r2_n" value="Normal"><label class="btn btn-outline-success" for="cr_d4_r2_n">Normal</label><input type="radio" class="btn-check" name="cr_dr4_r2" id="cr_d4_r2_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d4_r2_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr4_r3" id="cr_d4_r3_n" value="Normal"><label class="btn btn-outline-success" for="cr_d4_r3_n">Normal</label><input type="radio" class="btn-check" name="cr_dr4_r3" id="cr_d4_r3_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d4_r3_a">AbNormal</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label small fw-bold">Row 4</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="cr_dr4_r4" id="cr_d4_r4_n" value="Normal"><label class="btn btn-outline-success" for="cr_d4_r4_n">Normal</label><input type="radio" class="btn-check" name="cr_dr4_r4" id="cr_d4_r4_a" value="AbNormal"><label class="btn btn-outline-danger" for="cr_d4_r4_a">AbNormal</label></div></div>
+                      
+                      <div class="col-12"><label class="form-label small fw-bold">Remark Data Room 4</label><input type="text" name="cr_dr4_remark" class="form-control"></div>
+                    </div>
+                  </div>
+
+                  <div id="form-generator" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Generator System</h5>
+                    <div class="row g-3 mb-4">
+                      
+                      <h6 class="fw-bold w-100 mt-3 text-dark">Status Auto</h6>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen1_auto" id="g1_a_on" value="Auto"><label class="btn btn-outline-success" for="g1_a_on">Auto</label><input type="radio" class="btn-check" name="gen1_auto" id="g1_a_off" value="Stop"><label class="btn btn-outline-danger" for="g1_a_off">Stop</label></div></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen2_auto" id="g2_a_on" value="Auto"><label class="btn btn-outline-success" for="g2_a_on">Auto</label><input type="radio" class="btn-check" name="gen2_auto" id="g2_a_off" value="Stop"><label class="btn btn-outline-danger" for="g2_a_off">Stop</label></div></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen3_auto" id="g3_a_on" value="Auto"><label class="btn btn-outline-success" for="g3_a_on">Auto</label><input type="radio" class="btn-check" name="gen3_auto" id="g3_a_off" value="Stop"><label class="btn btn-outline-danger" for="g3_a_off">Stop</label></div></div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Status CB</h6>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen1_cb" id="g1_cb_o" value="Open"><label class="btn btn-outline-danger" for="g1_cb_o">Open</label><input type="radio" class="btn-check" name="gen1_cb" id="g1_cb_c" value="Close"><label class="btn btn-outline-success" for="g1_cb_c">Close</label></div></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen2_cb" id="g2_cb_o" value="Open"><label class="btn btn-outline-danger" for="g2_cb_o">Open</label><input type="radio" class="btn-check" name="gen2_cb" id="g2_cb_c" value="Close"><label class="btn btn-outline-success" for="g2_cb_c">Close</label></div></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen3_cb" id="g3_cb_o" value="Open"><label class="btn btn-outline-danger" for="g3_cb_o">Open</label><input type="radio" class="btn-check" name="gen3_cb" id="g3_cb_c" value="Close"><label class="btn btn-outline-success" for="g3_cb_c">Close</label></div></div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Status Cooling</h6>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-1</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen1_cool" id="g1_cl_f" value="Full"><label class="btn btn-outline-success" for="g1_cl_f">Full</label><input type="radio" class="btn-check" name="gen1_cool" id="g1_cl_l" value="Low"><label class="btn btn-outline-danger" for="g1_cl_l">Low</label></div></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-2</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen2_cool" id="g2_cl_f" value="Full"><label class="btn btn-outline-success" for="g2_cl_f">Full</label><input type="radio" class="btn-check" name="gen2_cool" id="g2_cl_l" value="Low"><label class="btn btn-outline-danger" for="g2_cl_l">Low</label></div></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-3</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="gen3_cool" id="g3_cl_f" value="Full"><label class="btn btn-outline-success" for="g3_cl_f">Full</label><input type="radio" class="btn-check" name="gen3_cool" id="g3_cl_l" value="Low"><label class="btn btn-outline-danger" for="g3_cl_l">Low</label></div></div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Status Fuel</h6>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-1</label><select name="gen1_fuel" class="form-select"><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-2</label><select name="gen2_fuel" class="form-select"><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold text-muted small">Generator-3</label><select name="gen3_fuel" class="form-select"><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Total Liters</h6>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold">Day tank-01</label><input type="text" name="gen_tank1" class="form-control"></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold">Day tank-02</label><input type="text" name="gen_tank2" class="form-control"></div>
+                      <div class="col-12 col-md-4"><label class="form-label fw-bold">Day tank-03</label><input type="text" name="gen_tank3" class="form-control"></div>
+                      
+                    </div>
+                  </div>
+
+                  <div id="form-fuel" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Fuel System</h5>
+                    <div class="row g-3 mb-4">
+                      
+                      <div class="col-md-6"><label class="form-label fw-bold">Fuel MTS PP-01</label><select name="fuel_mts_pp1" class="form-select"><option value="Source-A">Source-A</option><option value="Source-B">Source-B</option></select></div>
+                      <div class="col-md-6"><label class="form-label fw-bold">Fuel MTS PP-02</label><select name="fuel_mts_pp2" class="form-select"><option value="Source-A">Source-A</option><option value="Source-B">Source-B</option></select></div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Control Panel PP-01 & PP-02</h6>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label fw-bold text-muted small">Lamp Status PP-01</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_l_pp1" id="fl_p1_on" value="On"><label class="btn btn-outline-success" for="fl_p1_on">On</label><input type="radio" class="btn-check" name="fuel_l_pp1" id="fl_p1_off" value="Off"><label class="btn btn-outline-danger" for="fl_p1_off">Off</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label fw-bold text-muted small">Phase PP-01</label><select name="fuel_p_pp1" class="form-select"><option value="R">R</option><option value="S">S</option><option value="T">T</option></select></div>
+                      
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label fw-bold text-muted small">Lamp Status PP-02</label><div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_l_pp2" id="fl_p2_on" value="On"><label class="btn btn-outline-success" for="fl_p2_on">On</label><input type="radio" class="btn-check" name="fuel_l_pp2" id="fl_p2_off" value="Off"><label class="btn btn-outline-danger" for="fl_p2_off">Off</label></div></div>
+                      <div class="col-12 col-md-6 col-lg-3"><label class="form-label fw-bold text-muted small">Phase PP-02</label><select name="fuel_p_pp2" class="form-select"><option value="R">R</option><option value="S">S</option><option value="T">T</option></select></div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Control Panel (Overload & Run)</h6>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold text-muted small">Pump Overload PP-01</label>
+                        <select name="fuel_ovr1" class="form-select">
+                          <option value="Auto">Auto</option>
+                          <option value="Manual">Manual</option>
+                          <option value="Off">Off</option>
+                        </select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold text-muted small">Pump Overload PP-02</label>
+                        <select name="fuel_ovr2" class="form-select">
+                          <option value="Auto">Auto</option>
+                          <option value="Manual">Manual</option>
+                          <option value="Off">Off</option>
+                        </select>
+                      </div>
+
+                      <div class="col-12 col-md-6 mt-3">
+                        <label class="form-label fw-bold text-muted small">Pump Run PP-01</label>
+                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_run1" id="fr_p1_r" value="Run"><label class="btn btn-outline-success" for="fr_p1_r">Run</label><input type="radio" class="btn-check" name="fuel_run1" id="fr_p1_o" value="Off"><label class="btn btn-outline-danger" for="fr_p1_o">Off</label></div>
+                      </div>
+                      <div class="col-12 col-md-6 mt-3">
+                        <label class="form-label fw-bold text-muted small">Pump Run PP-02</label>
+                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_run2" id="fr_p2_r" value="Run"><label class="btn btn-outline-success" for="fr_p2_r">Run</label><input type="radio" class="btn-check" name="fuel_run2" id="fr_p2_o" value="Off"><label class="btn btn-outline-danger" for="fr_p2_o">Off</label></div>
+                      </div>
+
+                      <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Fuel System (Storage)</h6>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold text-muted small">Storage-01 Level</label>
+                        <select name="fuel_lvl_str1" class="form-select"><option value="High">High</option><option value="Medium -> High">Medium -> High</option><option value="Medium -> Low">Medium -> Low</option><option value="Low">Low</option></select>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label class="form-label fw-bold text-muted small">Storage-02 Level</label>
+                        <select name="fuel_lvl_str2" class="form-select"><option value="High">High</option><option value="Medium -> High">Medium -> High</option><option value="Medium -> Low">Medium -> Low</option><option value="Low">Low</option></select>
+                      </div>
+                      
+                      <div class="col-12 col-md-6 mt-3"><label class="form-label fw-bold text-muted small">Total Litres (Storage-01)</label><input type="text" name="fuel_lit_str1" class="form-control"></div>
+                      <div class="col-12 col-md-6 mt-3"><label class="form-label fw-bold text-muted small">Total Litres (Storage-02)</label><input type="text" name="fuel_lit_str2" class="form-control"></div>
+
+                      <div class="col-12 col-md-6 mt-4">
+                        <label class="form-label fw-bold text-muted small">PP03 Control Solenoid Valve (Storage-01 & 02)</label>
+                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_solenoid" id="f_sol_on" value="On"><label class="btn btn-outline-success" for="f_sol_on">On</label><input type="radio" class="btn-check" name="fuel_solenoid" id="f_sol_off" value="Off"><label class="btn btn-outline-danger" for="f_sol_off">Off</label></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="form-breaking-glass" class="dynamic-form-group" style="display: none;">
+                    <h5 class="fw-bold text-primary border-bottom pb-2 mt-4">Breaking Glass (ตรวจเช็คทุกวันที่ 3 ของเดือน)</h5>
+                    
+                    <div id="breaking-glass-render"></div>
+                    
+                    <div class="col-12 mt-4">
+                      <label class="form-label fw-bold">Remark</label>
+                      <input type="text" name="bg_remark" class="form-control">
+                    </div>
+
+                    <script>
+                      document.addEventListener("DOMContentLoaded", function() {
+                        const bgRooms = [
+                          { id: "lobby", name: "Lobby" }, { id: "sec", name: "Security" }, { id: "mdb", name: "MDB" },
+                          { id: "ups", name: "UPS & Battery" }, { id: "stage", name: "Staging" }, { id: "noc", name: "NOC" },
+                          { id: "mmr", name: "MMR" }, { id: "odf", name: "ODF" }, { id: "srv1", name: "Service-1" },
+                          { id: "srv2", name: "Service-2" }, { id: "srv3", name: "Service-3" }, { id: "srv4", name: "Service-4" },
+                          { id: "dc1", name: "Data Center-1" }, { id: "dc2", name: "Data Center-2" }, { id: "dc3", name: "Data Center-3" },
+                          { id: "dc4", name: "Data Center-4" }, { id: "nit1", name: "Nitro-1" }, { id: "nit2", name: "Nitro-2" },
+                          { id: "emg", name: "Emergency-Red" }, { id: "door", name: "Building Door" }, { id: "stor", name: "Storage" },
+                          { id: "fuel", name: "Fuel" }, { id: "tr", name: "TR" }, { id: "sync", name: "Synchronize" }
+                        ];
+
+                        const bgQuestions = [
+                          { id: "q1", text: "1. กระจกบนตัวอุปกรณ์อยู่ในสภาพปกติไม่มีรอยแตกหรือร้าว" },
+                          { id: "q2", text: "2. มีตัวอักษรแสดงเห็นชัดเจน" },
+                          { id: "q3", text: "3. มีกุญแจสำหรับไขทดสอบและไขคืนค่าการทำงาน" },
+                          { id: "q4", text: "4. อุปกรณ์อยู่ในสภาพพร้อมใช้งาน" },
+                          { id: "q5", text: "5. ระบบสามารถทำการปลดล็อคประตูได้ปกติ" } // เพิ่มลูกน้ำ (,) ตรงบรรทัดบน และเพิ่มข้อ 5
+                        ];
+
+                        let htmlContent = "";
+                        
+                        // สร้างหัวข้อคำถาม
+                        bgQuestions.forEach(q => {
+                          htmlContent += `<h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">${q.text}</h6><div class="row g-2 mb-3">`;
+                          
+                          // สร้างปุ่มของแต่ละห้องภายใต้คำถามนั้นๆ
+                          bgRooms.forEach(r => {
+                            htmlContent += `
+                              <div class="col-12 col-md-4 col-lg-3">
+                                <label class="form-label text-muted small fw-bold">${r.name}</label>
+                                <div class="btn-group w-100">
+                                  <input type="radio" class="btn-check" name="bg_${q.id}_${r.id}" id="bg_${q.id}_${r.id}_n" value="Normal">
+                                  <label class="btn btn-outline-success" for="bg_${q.id}_${r.id}_n">Normal</label>
+                                  <input type="radio" class="btn-check" name="bg_${q.id}_${r.id}" id="bg_${q.id}_${r.id}_f" value="Failed">
+                                  <label class="btn btn-outline-danger" for="bg_${q.id}_${r.id}_f">Failed</label>
+                                </div>
+                              </div>`;
+                          });
+                          htmlContent += `</div>`;
+                        });
+
+                        // นำโค้ดทั้งหมดไปแสดงผลบนหน้าจอ
+                        document.getElementById("breaking-glass-render").innerHTML = htmlContent;
+                      });
+                    </script>
+                  </div>
+
+                    
+
 
                   <div class="d-grid gap-3 d-md-flex justify-content-md-between align-items-center mt-4 border-top pt-4">
                     <button type="button" class="btn btn-outline-secondary px-4 py-2 order-2 order-md-1" onclick="viewRoomHistory()">

@@ -90,14 +90,27 @@ async function handleLogin(e) {
   }
 }
 
+// --- Auth UI Toggle ---
+function toggleAuthForm(view) {
+  if (view === 'register') {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('registerSection').style.display = 'block';
+  } else {
+    document.getElementById('registerSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = 'block';
+  }
+}
+
+// --- Updated Register Logic ---
 async function handleRegister(e) {
   e.preventDefault();
   
-  const username = document.getElementById('loginUsername').value.trim();
-  const password = document.getElementById('loginPassword').value.trim();
+  const first_name = document.getElementById('regFirstName').value.trim();
+  const last_name = document.getElementById('regLastName').value.trim();
+  const password = document.getElementById('regPassword').value.trim();
 
-  if (!username || !password) {
-    Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please enter a username and password to register.' });
+  if (!first_name || !last_name || !password) {
+    Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please fill out all fields.' });
     return;
   }
 
@@ -106,15 +119,23 @@ async function handleRegister(e) {
     const response = await fetch('http://127.0.0.1:8000/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ first_name, last_name, password })
     });
 
     const data = await response.json();
     hideLoader();
 
     if (response.ok) {
-      Swal.fire({ icon: 'success', title: 'Welcome!', text: data.message });
-      document.getElementById('loginPassword').value = ''; 
+      // The backend sends back the generated username in data.message
+      Swal.fire({ 
+        icon: 'success', 
+        title: 'Account Created!', 
+        html: `Your generated username is:<br><br><strong class="fs-4 text-primary">${data.message}</strong><br><br>Please use this to log in.`,
+        confirmButtonColor: '#0F172A'
+      }).then(() => {
+        document.getElementById('registerForm').reset();
+        toggleAuthForm('login');
+      });
     } else {
       Swal.fire({ icon: 'error', title: 'Registration Failed', text: data.detail });
     }
@@ -177,6 +198,7 @@ function switchView(view) {
 function openForm(roomName) {
   try { resetForm(); } catch (error) { console.warn("Reset error:", error); }
 
+  // Sub-menus
   if (roomName === 'Electrical System') {
     openSubSelection(roomName, ["1.1 MDB", "1.2 PDU", "1. RMU & TROP"]);
     return;
@@ -190,21 +212,39 @@ function openForm(roomName) {
     return;
   }
 
+  // Hide all dynamic forms first
   document.querySelectorAll('.dynamic-form-group').forEach(el => el.style.display = 'none');
 
-  if (roomName.includes('Electrical System')) {
-    if (roomName.includes('1.1 MDB')) document.getElementById('form-mdb').style.display = 'block';
-    else if (roomName.includes('1.2 PDU')) document.getElementById('form-pdu').style.display = 'block';
-    else if (roomName.includes('1. RMU & TROP')) document.getElementById('form-rmu').style.display = 'block';
-  }
-  if(roomName.includes('UPS System')) {
-    if (roomName.includes('2.1 UPS 2000-G & Battery')) document.getElementById('form-ups-2000-g').style.display = 'block';
-    else if (roomName.includes('2.2 UPS 5000-E & Battery')) document.getElementById('form-ups-5000-e').style.display = 'block';
-  }
+  // 1. Electrical
+  if (roomName.includes('1.1 MDB')) document.getElementById('form-mdb').style.display = 'block';
+  else if (roomName.includes('1.2 PDU')) document.getElementById('form-pdu').style.display = 'block';
+  else if (roomName.includes('1. RMU & TROP')) document.getElementById('form-rmu').style.display = 'block';
+  
+  // 2. UPS
+  else if (roomName.includes('2.1 UPS 2000-G')) document.getElementById('form-ups-2000-g').style.display = 'block';
+  else if (roomName.includes('2.2 UPS 5000-E')) document.getElementById('form-ups-5000-e').style.display = 'block';
+  
+  // 3. Temperature
+  else if (roomName.includes('3.1 Service Room 1')) document.getElementById('form-temp-sr1').style.display = 'block';
+  else if (roomName.includes('3.2 Service Room 2')) document.getElementById('form-temp-sr2').style.display = 'block';
+  else if (roomName.includes('3.3 Service Room 3')) document.getElementById('form-temp-sr3').style.display = 'block';
+  else if (roomName.includes('3.4 Service Room 4')) document.getElementById('form-temp-sr4').style.display = 'block';
+  else if (roomName.includes('3. UPS & Battery Room')) document.getElementById('form-temp-ups').style.display = 'block';
+
+  // 4-12. Single Page Systems
+  else if (roomName === 'Fire Annunciator Panel System') document.getElementById('form-fire-annunciator').style.display = 'block';
+  else if (roomName === 'Fire Suppression System') document.getElementById('form-fire-suppression').style.display = 'block';
+  else if (roomName === 'Water Leak Detection System') document.getElementById('form-water-leak').style.display = 'block';
+  else if (roomName === 'Access Control System') document.getElementById('form-access-control').style.display = 'block';
+  else if (roomName === 'CCTV') document.getElementById('form-cctv').style.display = 'block';
+  else if (roomName === 'Check Rack Customer') document.getElementById('form-check-rack').style.display = 'block';
+  else if (roomName === 'Generator System') document.getElementById('form-generator').style.display = 'block';
+  else if (roomName === 'Fuel System') document.getElementById('form-fuel').style.display = 'block';
+  else if (roomName === 'Breaking Glass') document.getElementById('form-breaking-glass').style.display = 'block';
 
   document.getElementById('room').value = roomName;
   document.getElementById('formTitle').innerText = "Maintenance: " + roomName;
-  document.getElementById('name').value = getUsernameFromToken(); // Auto-fill name
+  document.getElementById('name').value = getUsernameFromToken(); 
   
   switchView('formView');
 }
@@ -308,6 +348,67 @@ const payload = {
   } catch (error) {
     hideLoader();
     Swal.fire({ icon: 'error', title: 'Network Error', text: 'Cannot connect to Server.' });
+  }
+}
+
+// ==========================================
+// 🪄 AUTO-FILL NORMAL VALUES (UPGRADED)
+// ==========================================
+function selectAllNormal() {
+  // 1. Find the active form much more reliably (Checks all forms directly)
+  let activeForm = null;
+  const allForms = document.querySelectorAll('.dynamic-form-group');
+  allForms.forEach(form => {
+    if (form.style.display === 'block' || form.style.display.includes('block')) {
+      activeForm = form;
+    }
+  });
+  
+  if (!activeForm) {
+    Swal.fire({ icon: 'info', title: 'No Form Open', text: 'Please select a system first.' });
+    return;
+  }
+
+  // 2. Added 'run' and made everything lowercase so it NEVER fails from a typo
+  const goodValues = ['normal', 'on', 'auto', 'open', 'full', 'high', 'source-a', 'run'];
+  let selectedCount = 0;
+
+  // 3. Smart Radio Button selection (Case-insensitive check)
+  const radios = activeForm.querySelectorAll('input[type="radio"]');
+  radios.forEach(radio => {
+    // Trim spaces and convert to lowercase for a guaranteed match
+    const val = radio.value.trim().toLowerCase(); 
+    
+    if (goodValues.includes(val)) {
+      radio.checked = true;
+      selectedCount++;
+    }
+  });
+
+  // 4. Smart Dropdown selection
+  const selects = activeForm.querySelectorAll('select');
+  selects.forEach(select => {
+    // Let the user pick their own Work Shift, auto-fill the rest!
+    if (select.name !== 'cr_shift') {
+      select.selectedIndex = 0; 
+      selectedCount++;
+    }
+  });
+
+  // 5. Success popup
+  if (selectedCount > 0) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Auto-Filled',
+      text: `Checked ${selectedCount} items!`,
+      timer: 1200,
+      showConfirmButton: false,
+      position: 'top-end',
+      toast: true
+    });
+  } else {
+    // This tells us if something went wrong finding the buttons
+    Swal.fire({ icon: 'warning', title: 'No Items Found', text: 'Could not find any standard values to auto-fill.' });
   }
 }
 
@@ -596,6 +697,10 @@ function renderAnalytics() {
 // 🖨️ PDF PRINTING (DYNAMIC COLUMNS)
 // ==========================================
 
+// ==========================================
+// 🖨️ PDF PRINTING (DYNAMIC COLUMNS & SLIDABLE VIEW)
+// ==========================================
+
 function generateAndShowReport() {
   const filterValue = document.getElementById('historyFilter').value;
   const reportContainer = document.getElementById('reportContainer');
@@ -613,7 +718,32 @@ function generateAndShowReport() {
   const now = new Date();
   const filterText = filterValue === 'all' ? 'All Systems Summary' : filterValue;
 
+  // 🌟 MAGIC CSS: Makes it slidable on screen, but full-length on paper! 🌟
   let html = `
+    <style>
+      .report-scroll-box { 
+        max-height: 65vh; 
+        overflow: auto; 
+        white-space: nowrap; 
+      }
+      .report-sticky-header { 
+        position: sticky; 
+        top: 0; 
+        z-index: 2; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+      }
+      @media print {
+        .report-scroll-box { 
+          max-height: none !important; 
+          overflow: visible !important; 
+          white-space: normal !important; 
+        }
+        .report-sticky-header { 
+          position: static !important; 
+          box-shadow: none !important; 
+        }
+      }
+    </style>
     <div class="pt-3 px-0"> 
       <div class="report-header text-center mt-0 pt-0" style="padding-bottom: 10px; margin-bottom: 20px;">
         <h2 class="fw-bold mb-1 mt-0 pt-0" style="letter-spacing: 0.05em;">MONTHLY MAINTENANCE REPORT</h2>
@@ -622,7 +752,7 @@ function generateAndShowReport() {
 
       <div class="row mb-4 fs-6">
         <div class="col-6">
-          </div>
+        </div>
         <div class="col-6 text-end">
           <strong>Date:</strong> ${now.toLocaleDateString('en-GB')}
         </div>
@@ -645,12 +775,14 @@ function generateAndShowReport() {
     });
     const columnsArray = Array.from(dynamicColumns);
 
+    // 👇 Wrapped the table in our new slidable container
     html += `
-      <table class="table table-bordered report-table align-middle text-center" style="font-size: 8.5pt;">
-        <thead class="table-light">
-          <tr>
-            <th style="width: 80px;">Date</th>
-            <th style="width: 60px;">Time</th>
+      <div class="table-responsive report-scroll-box shadow-sm rounded border mb-5">
+        <table class="table table-bordered report-table align-middle text-center mb-0" style="font-size: 8.5pt;">
+          <thead class="table-light report-sticky-header">
+            <tr>
+              <th style="width: 80px;">Date</th>
+              <th style="width: 60px;">Time</th>
     `;
     
     columnsArray.forEach(col => {
@@ -666,22 +798,20 @@ function generateAndShowReport() {
       columnsArray.forEach(col => {
         let val = (r.extra_data && r.extra_data[col] !== undefined && r.extra_data[col] !== "") ? r.extra_data[col] : '-';
         let valStyle = '';
-        const lowerVal = String(val).toLowerCase();
         
         if (!isNaN(val) && val !== '-') val = Number(val).toLocaleString(); 
 
         html += `<td style="${valStyle}">${val}</td>`;
       });
 
-      html += `<td class="fw-bold">${r.name || '-'}</td></tr>`;
+      html += `<td class="fw-bold text-muted">${r.name || '-'}</td></tr>`;
     });
 
-    html += `</tbody></table>`;
+    html += `</tbody></table></div>`;
   } 
 
   html += `</div>`;
 
-  // 🌟 THIS IS THE MAGIC PART THAT SHOWS THE SCREEN! 🌟
   reportContainer.innerHTML = html;
   switchView('reportView');
 }

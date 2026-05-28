@@ -45,7 +45,10 @@ class MaintenanceRecord(BaseModel):
     time: time
     extra_data: Optional[Dict[str, Any]] = None 
 
-
+class RegisterRequest(BaseModel):
+    first_name: str
+    last_name: str
+    password: str
 
 class LoginRequest(BaseModel):
     username: str
@@ -84,35 +87,38 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Invalid token")
     
 @app.post("/api/register")
-def register(request: LoginRequest):
+def register(request: RegisterRequest):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        # 1. Check if the username is already taken
-        cursor.execute("SELECT username FROM system_users WHERE username = %s", (request.username,))
-        if cursor.fetchone():
-            raise HTTPException(status_code=400, detail="Username already exists")
+        # 1. Generate standard corporate username (firstname.lastname)
+        generated_username = f"{request.first_name.strip()} {request.last_name.strip()}"
 
-        # 2. Hash the new password using the passlib context we already set up
+        # 2. Check if the generated username is already taken
+        cursor.execute("SELECT username FROM system_users WHERE username = %s", (generated_username,))
+        if cursor.fetchone():
+            raise HTTPException(status_code=400, detail=f"Username '{generated_username}' is already taken. Please contact IT or add an initial.")
+
+        # 3. Hash the new password
         hashed_pw = pwd_context.hash(request.password)
 
-        # 3. Save the new user to the database
+        # 4. Save the new user to the database
         cursor.execute("""
             INSERT INTO system_users (username, hashed_password)
             VALUES (%s, %s)
-        """, (request.username, hashed_pw))
+        """, (generated_username, hashed_pw))
         
         conn.commit()
-        return {"success": True, "message": f"Account '{request.username}' created successfully! You can now log in."}
+        return {"success": True, "message": generated_username}
     
     except HTTPException:
-        raise # Re-raise our custom 400 error
+        raise 
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=500, detail="Database error occurred")
     finally:
         cursor.close()
-        conn.close()    
+        conn.close()
 
 # --- Endpoints ---
 @app.post("/api/login")

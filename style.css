@@ -319,6 +319,10 @@ body {
 
 /* ON / Normal */
 .btn-check[value="On"]:checked + .btn,
+.btn-check[value="Run"]:checked + .btn,
+.btn-check[value="Full"]:checked + .btn,
+.btn-check[value="Auto"]:checked + .btn,
+.btn-check[value="Open"]:checked + .btn,
 .btn-check[value="Normal"]:checked + .btn {
   background-color: #059669 !important;
   border-color: #059669 !important;
@@ -329,6 +333,9 @@ body {
 /* OFF / Failed / AbNormal */
 .btn-check[value="Off"]:checked + .btn,
 .btn-check[value="Failed"]:checked + .btn,
+.btn-check[value="Stop"]:checked + .btn,
+.btn-check[value="Low"]:checked + .btn,
+.btn-check[value="Close"]:checked + .btn,
 .btn-check[value="AbNormal"]:checked + .btn {
   background-color: #dc2626 !important;
   border-color: #dc2626 !important;
