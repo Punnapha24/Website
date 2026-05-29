@@ -9,6 +9,10 @@ from typing import Optional, Dict, Any
 import json
 import jwt
 from passlib.context import CryptContext
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -22,11 +26,11 @@ app.add_middleware(
 
 # --- Database Config ---
 DB_CONFIG = {
-    "dbname": "maintenance_db",
-    "user": "postgres",
-    "password": "postgress", 
-    "host": "localhost",
-    "port": "5432"
+    "dbname": os.getenv("DB_NAME"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"), 
+    "host": os.getenv("DB_HOST"),
+    "port": os.getenv("DB_PORT")
 }
 
 def get_db_connection():
