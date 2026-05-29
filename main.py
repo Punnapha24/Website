@@ -91,7 +91,7 @@ def register(request: RegisterRequest):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        # 1. Generate standard corporate username (firstname.lastname)
+        # 1. Generate standard corporate username (firstname lastname)
         generated_username = f"{request.first_name.strip()} {request.last_name.strip()}"
 
         # 2. Check if the generated username is already taken

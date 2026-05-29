@@ -1,2 +1,11 @@
 venv/
 __pycache__/
+
+# Ignore environment variables containing DB credentials
+.env
+.env.*
+
+# Ignore SQL dumps and backups
+*.sql
+*.dump
+*.bak

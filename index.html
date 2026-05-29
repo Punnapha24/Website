@@ -118,7 +118,12 @@
   
         
         <div id="dashboardView">
-          <h4 class="mb-4 fw-bold">Select a Form</h4>
+          <div class="mb-4 pb-3 border-bottom">
+            <h4 class="fw-bold text-dark mb-1" style="letter-spacing: -0.5px;">
+              <i class="bi bi-clipboard2-check text-primary me-2"></i>System Inspections
+            </h4>
+            <p class="text-muted small mb-0">Select a facility system below</p>
+          </div>
           
           <div class="bg-white rounded-4 p-2" style="border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(13, 27, 42, 0.03);">
             <div class="row g-0">
@@ -260,9 +265,11 @@
           </div>
 
         <div id="subSelectionView" style="display: none;">
+
           <button class="btn btn-sm btn-corporate-outline mb-4" onclick="switchView('dashboard')">
             <i class="bi bi-arrow-left"></i> Back to Dashboard
           </button>
+
           <h4 class="mb-4 fw-bold" id="subSelectionTitle">Select Category</h4>
           <div class="row g-4" id="subCategoryContainer">
             </div>
@@ -272,11 +279,11 @@
           <div class="row justify-content-center">
             <div class="col-lg-10">
               
-              <button class="btn btn-sm btn-corporate-outline mb-3" onclick="switchView('dashboard')">
-                <i class="bi bi-arrow-left"></i> Back to Dashboard
+              <button id="btnFormBack" class="btn btn-sm btn-corporate-outline mb-4" onclick="handleFormBack()">
+                  <i class="bi bi-arrow-left"></i> Back to Dashboard
               </button>
 
-              <button class="btn btn-sm btn-success fw-bold mb-3 shadow-sm" onclick="selectAllNormal()">
+              <button class="btn btn-sm btn-success fw-bold mb-4 shadow-sm" onclick="selectAllNormal()">
                   <i class="bi bi-check2-all me-1"></i> Auto-Fill
               </button>
               
@@ -1485,13 +1492,23 @@
 
                       <div class="col-12 col-md-6 mt-3">
                         <label class="form-label fw-bold text-muted small">Pump Run PP-01</label>
-                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_run1" id="fr_p1_r" value="Run"><label class="btn btn-outline-success" for="fr_p1_r">Run</label><input type="radio" class="btn-check" name="fuel_run1" id="fr_p1_o" value="Off"><label class="btn btn-outline-danger" for="fr_p1_o">Off</label></div>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="fuel_run1" id="fr_p1_o" value="Off">
+                          <label class="btn btn-outline-success" for="fr_p1_o">Off</label>
+                          <input type="radio" class="btn-check" name="fuel_run1" id="fr_p1_r" value="Run">
+                          <label class="btn btn-outline-danger" for="fr_p1_r">Run</label>
+                        </div>
                       </div>
                       <div class="col-12 col-md-6 mt-3">
                         <label class="form-label fw-bold text-muted small">Pump Run PP-02</label>
-                        <div class="btn-group w-100"><input type="radio" class="btn-check" name="fuel_run2" id="fr_p2_r" value="Run"><label class="btn btn-outline-success" for="fr_p2_r">Run</label><input type="radio" class="btn-check" name="fuel_run2" id="fr_p2_o" value="Off"><label class="btn btn-outline-danger" for="fr_p2_o">Off</label></div>
+                        <div class="btn-group w-100">
+                          <input type="radio" class="btn-check" name="fuel_run2" id="fr_p2_o" value="Off">
+                          <label class="btn btn-outline-success" for="fr_p2_o">Off</label>
+                          <input type="radio" class="btn-check" name="fuel_run2" id="fr_p2_r" value="Run">
+                          <label class="btn btn-outline-danger" for="fr_p2_r">Run</label>
+                        </div>
                       </div>
-
+                      
                       <h6 class="fw-bold w-100 mt-4 text-dark border-top pt-3">Fuel System (Storage)</h6>
                       <div class="col-12 col-md-6">
                         <label class="form-label fw-bold text-muted small">Storage-01 Level</label>
@@ -1642,13 +1659,21 @@
         <div id="reportView" style="display: none;">
           <div class="card p-3 p-md-4 mb-4 border-0 shadow-sm" style="min-height: 80vh;">
             
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom hide-on-print">
-              <button class="btn btn-sm btn-outline-secondary fw-bold px-3" onclick="switchView('table')">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center mb-4 pb-3 border-bottom hide-on-print gap-3">
+              
+              <button class="btn btn-outline-secondary fw-bold px-3 py-2" onclick="switchView('table')">
                 <i class="bi bi-arrow-left me-1"></i> Back to History
               </button>
-              <button class="btn btn-corporate btn-sm fw-bold px-4" onclick="window.print()">
-                <i class="bi bi-printer-fill me-1"></i> Print / Save PDF
-              </button>
+              
+              <div class="d-flex flex-column flex-sm-row gap-2">
+                <button class="btn btn-success fw-bold px-3 py-2" onclick="exportReportToExcel()">
+                  <i class="bi bi-file-earmark-excel me-1"></i> Export Excel
+                </button>
+                <button class="btn btn-corporate fw-bold px-4 py-2" onclick="window.print()">
+                  <i class="bi bi-printer-fill me-1"></i> Print / Save PDF
+                </button>
+              </div>
+
             </div>
 
             <div id="reportContainer"></div>
@@ -1660,7 +1685,7 @@
           <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
             <div>
               <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-graph-up text-primary me-2"></i>System Analytics</h4>
-              <p class="text-muted mb-0 small">Overview of monthly maintenance performance</p>
+              <p class="text-muted mb-0 small">Overview of monthly maintenance</p>
             </div>
             <div class="d-flex gap-2 align-items-center">
               <select id="monthFilter" class="form-select form-select-sm fw-medium shadow-sm border-0" style="min-width: 150px; background-color: white;" onchange="renderAnalytics()">
@@ -1727,6 +1752,30 @@
                 </div>
               </div>
             </div>
+            <!-- 🌟 NEW CHARTS: Trend & Top Offenders -->
+            <div class="row mt-4">
+              
+              <!-- Trend Line Chart -->
+              <div class="col-12 col-xl-7 mb-4">
+                <div class="card bg-white p-4 h-100 shadow-sm border-0 rounded-4">
+                  <h6 class="fw-bold text-muted mb-3 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.05em;">Anomalies Trend (Daily)</h6>
+                  <div style="height: 300px;">
+                    <canvas id="trendChart"></canvas>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Top Offenders Chart -->
+              <div class="col-12 col-xl-5 mb-4">
+                <div class="card bg-white p-4 h-100 shadow-sm border-0 rounded-4">
+                  <h6 class="fw-bold text-muted mb-3 text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.05em;">Top 5 Problematic Systems</h6>
+                  <div style="height: 300px;">
+                    <canvas id="offendersChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
   
@@ -1734,6 +1783,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
